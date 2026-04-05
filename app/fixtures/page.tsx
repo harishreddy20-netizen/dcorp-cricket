@@ -158,7 +158,7 @@ export default function FixturesPage() {
                         <span className="bg-white border border-gray-200 text-gray-600 px-2 py-0.5 rounded-full">{match.type}</span>
                         <span>{new Date(match.date + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</span>
                       </div>
-                      <p className="text-gray-400">⭐ MOTM: {match.motm}</p>
+                      <p className="text-gray-400">{match.margin}</p>
                     </div>
                   </div>
                 </div>

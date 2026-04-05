@@ -194,8 +194,8 @@ export default function HomePage() {
               </div>
               <div className="bg-gray-50 rounded-xl px-4 py-3 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Man of the Match</span>
-                  <span className="text-gray-900 font-medium">{latestResult.motm}</span>
+                  <span className="text-gray-400">Result</span>
+                  <span className="text-gray-900 font-medium">{latestResult.margin}</span>
                 </div>
               </div>
             </div>
