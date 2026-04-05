@@ -60,40 +60,45 @@ export default function JoinForm() {
 
   if (submitted) {
     return (
-      <div className="bg-white border border-green-200 rounded-2xl p-10 text-center shadow-sm">
-        <div className="w-16 h-16 rounded-full bg-green-50 border border-green-200 flex items-center justify-center mx-auto mb-5 text-3xl text-green-600">
-          ✓
+      <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden text-center">
+        <div className="h-1.5 bg-green-400" />
+        <div className="p-12">
+          <div className="w-16 h-16 rounded-2xl bg-green-50 border border-green-100 flex items-center justify-center mx-auto mb-5 text-3xl">
+            ✅
+          </div>
+          <h2 className="text-gray-900 text-2xl font-extrabold tracking-tight mb-3">Application Received!</h2>
+          <p className="text-gray-500 text-sm leading-relaxed max-w-sm mx-auto">
+            Thanks, <strong className="text-gray-900">{form.name}</strong>! We&apos;ve received your
+            application and will be in touch at{" "}
+            <strong className="text-gray-900">{form.email}</strong> within 48 hours.
+          </p>
+          <button
+            onClick={() => { setForm(initialData); setSubmitted(false); }}
+            className="mt-6 text-[#dc2626] text-sm font-semibold hover:text-[#b91c1c] transition-colors"
+          >
+            Submit another application →
+          </button>
         </div>
-        <h2 className="text-gray-900 text-2xl font-bold mb-3">Application Received!</h2>
-        <p className="text-gray-500 text-sm leading-relaxed max-w-sm mx-auto">
-          Thanks, <strong className="text-gray-900">{form.name}</strong>! We&apos;ve received your
-          application and will be in touch at <strong className="text-gray-900">{form.email}</strong>{" "}
-          within 48 hours.
-        </p>
-        <button
-          onClick={() => {
-            setForm(initialData);
-            setSubmitted(false);
-          }}
-          className="mt-6 text-[#dc2626] text-sm hover:text-[#b91c1c] transition-colors"
-        >
-          Submit another application
-        </button>
       </div>
     );
   }
 
   const inputClass =
-    "w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-gray-900 text-sm placeholder-gray-400 focus:outline-none focus:border-[#dc2626] focus:bg-white transition-colors";
-  const errorClass = "text-red-600 text-xs mt-1";
-  const labelClass = "block text-gray-700 text-sm font-medium mb-1.5";
+    "w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 text-sm placeholder-gray-400 focus:outline-none focus:border-[#dc2626] focus:bg-white transition-colors duration-150";
+  const errorClass = "text-red-600 text-xs mt-1.5 flex items-center gap-1";
+  const labelClass = "block text-gray-700 text-sm font-semibold mb-1.5";
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white border border-gray-200 rounded-2xl p-6 space-y-5 shadow-sm"
+      className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden"
     >
-      <h2 className="text-gray-900 font-bold text-xl mb-2">Your Details</h2>
+      <div className="h-1 bg-[#dc2626]" />
+      <div className="p-6 sm:p-8 space-y-5">
+      <div>
+        <p className="text-[#dc2626] text-xs font-bold uppercase tracking-widest mb-1">Application Form</p>
+        <h2 className="text-gray-900 font-extrabold text-xl tracking-tight">Your Details</h2>
+      </div>
 
       {/* Name */}
       <div>
@@ -245,10 +250,11 @@ export default function JoinForm() {
 
       <button
         type="submit"
-        className="w-full bg-[#dc2626] hover:bg-[#b91c1c] text-white font-semibold py-3.5 rounded-lg transition-colors text-sm"
+        className="w-full bg-[#dc2626] hover:bg-[#b91c1c] text-white font-bold py-3.5 rounded-xl transition-all duration-150 text-sm shadow-md shadow-red-100 hover:-translate-y-0.5"
       >
         Submit Application
       </button>
+      </div>
     </form>
   );
 }

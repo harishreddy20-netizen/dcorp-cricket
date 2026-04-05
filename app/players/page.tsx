@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { players } from "@/lib/data";
+import PageBanner from "@/components/PageBanner";
 
 export const metadata: Metadata = {
   title: "Players",
@@ -7,82 +8,87 @@ export const metadata: Metadata = {
 };
 
 function initials(name: string) {
-  return name
-    .split(" ")
-    .slice(0, 2)
-    .map((n) => n[0].toUpperCase())
-    .join("");
+  return name.split(" ").slice(0, 2).map((n) => n[0].toUpperCase()).join("");
 }
+
+const gradients = [
+  "from-red-500 to-red-800",
+  "from-rose-500 to-red-700",
+  "from-red-600 to-rose-900",
+  "from-red-700 to-red-900",
+];
 
 export default function PlayersPage() {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      {/* Header */}
-      <div className="mb-4 text-center">
-        <h1 className="text-4xl font-extrabold text-gray-900 mb-3">Our Squad</h1>
-        <p className="text-gray-500 text-lg max-w-xl mx-auto">
-          TSCL 35 2026 — Dcorp registered players.
-        </p>
-      </div>
+    <div>
+      <PageBanner
+        eyebrow="TSCL 35 2026"
+        title="Our Squad"
+        subtitle="Meet the 21 players representing Dcorp Cricket Club this season."
+      />
 
-      <div className="flex justify-center mb-10">
-        <span className="text-xs bg-red-50 text-[#dc2626] border border-red-200 px-3 py-1.5 rounded-full font-medium">
-          {players.length} players registered
-        </span>
-      </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Count pill */}
+        <div className="flex items-center gap-3 mb-8">
+          <span className="w-1 h-6 bg-[#dc2626] rounded-full" />
+          <h2 className="text-xl font-bold text-gray-900 tracking-tight">Registered Players</h2>
+          <span className="ml-auto text-xs bg-red-50 text-[#dc2626] border border-red-200 px-3 py-1.5 rounded-full font-semibold">
+            {players.length} players
+          </span>
+        </div>
 
-      {/* Player Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {players.map((player) => (
-          <div
-            key={player.id}
-            className="bg-white border border-gray-200 rounded-2xl p-5 hover:border-red-200 hover:shadow-sm transition-all flex items-center gap-4"
+        {/* Player Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {players.map((player, i) => (
+            <div
+              key={player.id}
+              className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
+            >
+              {/* Card header gradient */}
+              <div className={`bg-gradient-to-r ${gradients[i % gradients.length]} px-5 py-4 flex items-center justify-between`}>
+                <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-white font-extrabold text-lg">
+                  {initials(player.name)}
+                </div>
+                {player.jersey > 0 ? (
+                  <div className="text-right">
+                    <p className="text-white/60 text-[10px] uppercase tracking-widest">Jersey</p>
+                    <p className="text-white font-extrabold text-2xl leading-none">{player.jersey}</p>
+                  </div>
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                    <span className="text-white/40 text-xs">—</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Card body */}
+              <div className="px-5 py-4">
+                <p className="text-gray-900 font-semibold text-sm leading-tight">{player.name}</p>
+                <div className="flex items-center justify-between mt-2">
+                  <span className="text-gray-400 text-xs">TSCL 35 2026 · Dcorp</span>
+                  <span className="text-gray-300 text-[10px] font-mono">#{player.ccPlayerId}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Join CTA */}
+        <div className="mt-14 bg-gray-900 rounded-2xl p-10 text-center relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-[#dc2626]" />
+          <p className="text-[#dc2626] text-xs font-bold uppercase tracking-widest mb-2">Open Trials</p>
+          <h2 className="text-white text-2xl font-extrabold mb-3 tracking-tight">Want to Join the Squad?</h2>
+          <p className="text-gray-400 mb-6 max-w-lg mx-auto text-sm leading-relaxed">
+            We&apos;re always looking for talented players. If you have the passion and skill, we
+            want to hear from you.
+          </p>
+          <a
+            href="/join"
+            className="inline-block bg-[#dc2626] hover:bg-[#b91c1c] text-white font-semibold px-8 py-3 rounded-xl transition-all duration-150 text-sm shadow-lg shadow-red-900/30 hover:-translate-y-0.5"
           >
-            {/* Avatar */}
-            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#dc2626] to-[#7f1d1d] flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-              {initials(player.name)}
-            </div>
-
-            {/* Info */}
-            <div className="flex-1 min-w-0">
-              <h2 className="text-gray-900 font-semibold text-sm leading-tight truncate">
-                {player.name}
-              </h2>
-              <p className="text-gray-400 text-xs mt-0.5">
-                TSCL 35 2026 · Dcorp
-              </p>
-            </div>
-
-            {/* Jersey / ID */}
-            <div className="flex-shrink-0 text-right">
-              {player.jersey > 0 ? (
-                <div className="w-10 h-10 rounded-full bg-[#dc2626] flex items-center justify-center text-white font-bold text-sm">
-                  {player.jersey}
-                </div>
-              ) : (
-                <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 text-xs font-medium">
-                  —
-                </div>
-              )}
-              <p className="text-gray-300 text-[10px] mt-1 text-center">jersey</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Join CTA */}
-      <div className="mt-16 text-center bg-white border border-red-100 rounded-2xl p-10 shadow-sm">
-        <h2 className="text-gray-900 text-2xl font-bold mb-3">Want to Join the Squad?</h2>
-        <p className="text-gray-500 mb-6 max-w-lg mx-auto">
-          We&apos;re always looking for talented players. If you have the passion and skill, we want
-          to hear from you.
-        </p>
-        <a
-          href="/join"
-          className="bg-[#dc2626] hover:bg-[#b91c1c] text-white font-semibold px-8 py-3 rounded-lg transition-colors text-sm inline-block"
-        >
-          Apply Now
-        </a>
+            Apply Now
+          </a>
+        </div>
       </div>
     </div>
   );
