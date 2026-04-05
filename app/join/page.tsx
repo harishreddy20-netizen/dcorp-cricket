@@ -64,15 +64,6 @@ export default function JoinPage() {
               ))}
             </ul>
           </div>
-
-          <div className="bg-red-50 border border-red-200 rounded-2xl p-6">
-            <h3 className="text-[#dc2626] font-bold mb-2">Talent Trials</h3>
-            <p className="text-gray-700 text-sm leading-relaxed">
-              Next open trials: <strong className="text-gray-900">5th April 2026</strong> at Greenfield
-              Park Ground, 10:00 AM. All skill levels welcome. Register via this form to secure your
-              spot.
-            </p>
-          </div>
         </div>
       </div>
     </div>
