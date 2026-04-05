@@ -27,7 +27,9 @@ const initialData: FormData = {
 export default function JoinForm() {
   const [form, setForm] = useState<FormData>(initialData);
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Partial<FormData>>({});
+  const [serverError, setServerError] = useState("");
 
   function validate(): boolean {
     const newErrors: Partial<FormData> = {};
@@ -51,10 +53,23 @@ export default function JoinForm() {
     }
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (validate()) {
+    if (!validate()) return;
+    setLoading(true);
+    setServerError("");
+    try {
+      const res = await fetch("/api/join", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error("Server error");
       setSubmitted(true);
+    } catch {
+      setServerError("Something went wrong. Please try again or email us directly.");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -248,11 +263,15 @@ export default function JoinForm() {
         />
       </div>
 
+      {serverError && (
+        <p className="text-red-600 text-sm text-center">{serverError}</p>
+      )}
       <button
         type="submit"
-        className="w-full bg-[#dc2626] hover:bg-[#b91c1c] text-white font-bold py-3.5 rounded-xl transition-all duration-150 text-sm shadow-md shadow-red-100 hover:-translate-y-0.5"
+        disabled={loading}
+        className="w-full bg-[#dc2626] hover:bg-[#b91c1c] disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl transition-all duration-150 text-sm shadow-md shadow-red-100 hover:-translate-y-0.5"
       >
-        Submit Application
+        {loading ? "Submitting…" : "Submit Application"}
       </button>
       </div>
     </form>
