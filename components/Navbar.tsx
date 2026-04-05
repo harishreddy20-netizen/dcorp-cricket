@@ -9,7 +9,7 @@ const links = [
   { href: "/", label: "Home" },
   { href: "/players", label: "Players" },
   { href: "/fixtures", label: "Fixtures & Results" },
-  { href: "/news", label: "News" },
+  { href: "/gallery", label: "Gallery" },
   { href: "/join", label: "Join Us" },
 ];
 
@@ -33,7 +33,7 @@ export default function Navbar() {
               />
             </div>
             <div className="hidden sm:block">
-              <p className="font-bold text-gray-900 text-base leading-tight tracking-tight">
+              <p className="font-display font-bold text-gray-900 text-lg leading-tight tracking-tight">
                 Dcorp <span className="text-[#dc2626]">Cricket Club</span>
               </p>
               <p className="text-gray-400 text-[11px] tracking-widest uppercase">Oklahoma City</p>

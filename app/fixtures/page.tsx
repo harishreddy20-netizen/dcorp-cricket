@@ -35,7 +35,7 @@ export default function FixturesPage() {
         <section className="mb-14">
           <div className="flex items-center gap-3 mb-8">
             <span className="w-1 h-6 bg-[#dc2626] rounded-full" />
-            <h2 className="text-xl font-bold text-gray-900 tracking-tight">2026 Fixtures</h2>
+            <h2 className="font-display text-2xl font-bold text-gray-900 tracking-tight">2026 Fixtures</h2>
           </div>
 
           <div className="space-y-8">
@@ -119,7 +119,7 @@ export default function FixturesPage() {
         <section>
           <div className="flex items-center gap-3 mb-8">
             <span className="w-1 h-6 bg-[#dc2626] rounded-full" />
-            <h2 className="text-xl font-bold text-gray-900 tracking-tight">Recent Results</h2>
+            <h2 className="font-display text-2xl font-bold text-gray-900 tracking-tight">Recent Results</h2>
           </div>
 
           <div className="space-y-4">

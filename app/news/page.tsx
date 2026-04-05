@@ -31,7 +31,7 @@ export default function NewsPage() {
         {/* Featured */}
         <div className="flex items-center gap-3 mb-6">
           <span className="w-1 h-6 bg-[#dc2626] rounded-full" />
-          <h2 className="text-xl font-bold text-gray-900 tracking-tight">Featured</h2>
+          <h2 className="font-display text-2xl font-bold text-gray-900 tracking-tight">Featured</h2>
         </div>
 
         <article className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden mb-12 hover:shadow-md transition-all duration-200">
@@ -47,7 +47,7 @@ export default function NewsPage() {
               </span>
               <span className="ml-auto text-[#dc2626] text-xs font-bold uppercase tracking-widest">Featured</span>
             </div>
-            <h2 className="text-gray-900 text-2xl sm:text-3xl font-extrabold tracking-tight leading-snug mb-4">
+            <h2 className="font-display text-gray-900 text-3xl sm:text-4xl font-bold tracking-tight leading-snug mb-4">
               {featured.title}
             </h2>
             <p className="text-gray-600 text-base leading-relaxed mb-3 font-medium">{featured.excerpt}</p>
@@ -58,7 +58,7 @@ export default function NewsPage() {
         {/* More articles */}
         <div className="flex items-center gap-3 mb-6">
           <span className="w-1 h-6 bg-[#dc2626] rounded-full" />
-          <h2 className="text-xl font-bold text-gray-900 tracking-tight">More Stories</h2>
+          <h2 className="font-display text-2xl font-bold text-gray-900 tracking-tight">More Stories</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
