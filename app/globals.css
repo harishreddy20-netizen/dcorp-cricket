@@ -3,9 +3,6 @@
 @theme inline {
   --color-brand-red: #dc2626;
   --color-brand-red-dark: #b91c1c;
-  --color-brand-black: #0f0f0f;
-  --color-brand-gray: #1a1a1a;
-  --color-brand-light: #f5f5f5;
 }
 
 html {
@@ -13,7 +10,7 @@ html {
 }
 
 body {
-  background: #0f0f0f;
-  color: #f5f5f5;
+  background: #f9fafb;
+  color: #111827;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
 }

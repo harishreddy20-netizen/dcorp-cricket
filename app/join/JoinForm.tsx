@@ -60,14 +60,14 @@ export default function JoinForm() {
 
   if (submitted) {
     return (
-      <div className="bg-[#1a1a1a] border border-green-500/30 rounded-2xl p-10 text-center">
-        <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-5 text-3xl">
+      <div className="bg-white border border-green-200 rounded-2xl p-10 text-center shadow-sm">
+        <div className="w-16 h-16 rounded-full bg-green-50 border border-green-200 flex items-center justify-center mx-auto mb-5 text-3xl text-green-600">
           ✓
         </div>
-        <h2 className="text-white text-2xl font-bold mb-3">Application Received!</h2>
-        <p className="text-gray-400 text-sm leading-relaxed max-w-sm mx-auto">
-          Thanks, <strong className="text-white">{form.name}</strong>! We&apos;ve received your
-          application and will be in touch at <strong className="text-white">{form.email}</strong>{" "}
+        <h2 className="text-gray-900 text-2xl font-bold mb-3">Application Received!</h2>
+        <p className="text-gray-500 text-sm leading-relaxed max-w-sm mx-auto">
+          Thanks, <strong className="text-gray-900">{form.name}</strong>! We&apos;ve received your
+          application and will be in touch at <strong className="text-gray-900">{form.email}</strong>{" "}
           within 48 hours.
         </p>
         <button
@@ -84,16 +84,16 @@ export default function JoinForm() {
   }
 
   const inputClass =
-    "w-full bg-[#0f0f0f] border border-white/10 rounded-lg px-4 py-3 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#dc2626] transition-colors";
-  const errorClass = "text-red-400 text-xs mt-1";
-  const labelClass = "block text-gray-300 text-sm font-medium mb-1.5";
+    "w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-gray-900 text-sm placeholder-gray-400 focus:outline-none focus:border-[#dc2626] focus:bg-white transition-colors";
+  const errorClass = "text-red-600 text-xs mt-1";
+  const labelClass = "block text-gray-700 text-sm font-medium mb-1.5";
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-[#1a1a1a] border border-white/10 rounded-2xl p-6 space-y-5"
+      className="bg-white border border-gray-200 rounded-2xl p-6 space-y-5 shadow-sm"
     >
-      <h2 className="text-white font-bold text-xl mb-2">Your Details</h2>
+      <h2 className="text-gray-900 font-bold text-xl mb-2">Your Details</h2>
 
       {/* Name */}
       <div>
@@ -107,7 +107,7 @@ export default function JoinForm() {
           placeholder="e.g. Rahul Singh"
           value={form.name}
           onChange={handleChange}
-          className={`${inputClass} ${errors.name ? "border-red-500" : ""}`}
+          className={`${inputClass} ${errors.name ? "border-red-400" : ""}`}
         />
         {errors.name && <p className={errorClass}>{errors.name}</p>}
       </div>
@@ -125,7 +125,7 @@ export default function JoinForm() {
             placeholder="you@example.com"
             value={form.email}
             onChange={handleChange}
-            className={`${inputClass} ${errors.email ? "border-red-500" : ""}`}
+            className={`${inputClass} ${errors.email ? "border-red-400" : ""}`}
           />
           {errors.email && <p className={errorClass}>{errors.email}</p>}
         </div>
@@ -172,7 +172,7 @@ export default function JoinForm() {
             name="role"
             value={form.role}
             onChange={handleChange}
-            className={`${inputClass} ${errors.role ? "border-red-500" : ""}`}
+            className={`${inputClass} ${errors.role ? "border-red-400" : ""}`}
           >
             <option value="">Select role</option>
             <option value="opening-batsman">Opening Batsman</option>
@@ -197,7 +197,7 @@ export default function JoinForm() {
             name="experience"
             value={form.experience}
             onChange={handleChange}
-            className={`${inputClass} ${errors.experience ? "border-red-500" : ""}`}
+            className={`${inputClass} ${errors.experience ? "border-red-400" : ""}`}
           >
             <option value="">Select level</option>
             <option value="beginner">Beginner (just starting out)</option>

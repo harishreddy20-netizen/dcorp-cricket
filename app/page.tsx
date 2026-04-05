@@ -1,11 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
 import { fixtures, results, news } from "@/lib/data";
 
 function StatCard({ value, label }: { value: string; label: string }) {
   return (
     <div className="text-center">
       <div className="text-4xl font-bold text-[#dc2626]">{value}</div>
-      <div className="text-gray-400 text-sm mt-1">{label}</div>
+      <div className="text-gray-500 text-sm mt-1">{label}</div>
     </div>
   );
 }
@@ -18,9 +19,9 @@ export default function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[#0f0f0f]">
+      <section className="relative overflow-hidden bg-white border-b border-gray-100">
         <div
-          className="absolute inset-0 opacity-5"
+          className="absolute inset-0 opacity-[0.03]"
           style={{
             backgroundImage:
               "repeating-linear-gradient(45deg, #dc2626 0, #dc2626 1px, transparent 0, transparent 50%)",
@@ -28,16 +29,30 @@ export default function HomePage() {
           }}
         />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-28 text-center">
-          <div className="inline-flex items-center gap-2 bg-[#dc2626]/10 border border-[#dc2626]/30 rounded-full px-4 py-1.5 text-sm text-[#dc2626] font-medium mb-6">
+          {/* Logo */}
+          <div className="flex justify-center mb-6">
+            <div className="w-32 h-32 rounded-full overflow-hidden bg-black shadow-xl ring-4 ring-[#dc2626]/20">
+              <Image
+                src="/logo.jpeg"
+                alt="Dcorp Cricket Club"
+                width={128}
+                height={128}
+                className="w-full h-full object-cover"
+                priority
+              />
+            </div>
+          </div>
+
+          <div className="inline-flex items-center gap-2 bg-red-50 border border-red-200 rounded-full px-4 py-1.5 text-sm text-[#dc2626] font-medium mb-6">
             <span className="w-2 h-2 rounded-full bg-[#dc2626] animate-pulse" />
             Now Recruiting — Season 2026
           </div>
-          <h1 className="text-5xl sm:text-7xl font-extrabold text-white tracking-tight mb-6 leading-tight">
+          <h1 className="text-5xl sm:text-7xl font-extrabold text-gray-900 tracking-tight mb-6 leading-tight">
             Dcorp{" "}
             <span className="text-[#dc2626]">Cricket</span>{" "}
             Club
           </h1>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-10">
+          <p className="text-xl text-gray-500 max-w-2xl mx-auto mb-10">
             Passionate cricket. Serious competition. A community built for
             players who love the game. Join us and make your mark.
           </p>
@@ -50,7 +65,7 @@ export default function HomePage() {
             </Link>
             <Link
               href="/fixtures"
-              className="border border-white/20 hover:border-white/40 text-white font-semibold px-8 py-3.5 rounded-lg transition-colors text-sm hover:bg-white/5"
+              className="border border-gray-300 hover:border-gray-400 text-gray-700 font-semibold px-8 py-3.5 rounded-lg transition-colors text-sm hover:bg-gray-50"
             >
               View Fixtures
             </Link>
@@ -59,7 +74,7 @@ export default function HomePage() {
       </section>
 
       {/* Stats */}
-      <section className="bg-[#1a1a1a] border-y border-white/10">
+      <section className="bg-gray-50 border-y border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
             <StatCard value="20+" label="Squad Members" />
@@ -74,58 +89,68 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Next Match */}
-          <div className="bg-[#1a1a1a] border border-white/10 rounded-2xl p-6">
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
             <div className="flex items-center justify-between mb-5">
-              <h2 className="text-white font-bold text-lg">Next Match</h2>
-              <span className="text-xs bg-[#dc2626]/20 text-[#dc2626] px-2.5 py-1 rounded-full font-medium">
-                {nextMatch.type}
+              <h2 className="text-gray-900 font-bold text-lg">Next Match</h2>
+              <span className="text-xs bg-red-50 text-[#dc2626] border border-red-200 px-2.5 py-1 rounded-full font-medium">
+                League
               </span>
             </div>
-            <div className="flex items-center justify-between gap-4">
-              <div className="text-center flex-1">
-                <div className="w-14 h-14 rounded-full bg-[#dc2626] flex items-center justify-center font-bold text-white text-sm mx-auto mb-2">
-                  DC
+            {(() => {
+              const homeTeam = nextMatch.isHome ? "Dcorp CC" : nextMatch.opponent;
+              const awayTeam = nextMatch.isHome ? nextMatch.opponent : "Dcorp CC";
+              const homeInitials = nextMatch.isHome ? "DC" : nextMatch.opponent.slice(0, 2).toUpperCase();
+              const awayInitials = nextMatch.isHome ? nextMatch.opponent.slice(0, 2).toUpperCase() : "DC";
+              return (
+                <div className="flex items-center justify-between gap-4">
+                  <div className="text-center flex-1">
+                    <div className={`w-14 h-14 rounded-full flex items-center justify-center font-bold text-white text-sm mx-auto mb-2 ${nextMatch.isHome ? "bg-[#dc2626]" : "bg-gray-200"}`}>
+                      <span className={nextMatch.isHome ? "text-white" : "text-gray-600"}>{homeInitials}</span>
+                    </div>
+                    <p className="text-gray-900 font-semibold text-sm">{homeTeam}</p>
+                    <p className="text-gray-400 text-xs mt-0.5">Home</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-[#dc2626] font-bold text-xl">VS</p>
+                  </div>
+                  <div className="text-center flex-1">
+                    <div className={`w-14 h-14 rounded-full flex items-center justify-center font-bold text-sm mx-auto mb-2 ${!nextMatch.isHome ? "bg-[#dc2626]" : "bg-gray-200"}`}>
+                      <span className={!nextMatch.isHome ? "text-white" : "text-gray-600"}>{awayInitials}</span>
+                    </div>
+                    <p className="text-gray-900 font-semibold text-sm">{awayTeam}</p>
+                    <p className="text-gray-400 text-xs mt-0.5">Away</p>
+                  </div>
                 </div>
-                <p className="text-white font-semibold text-sm">Dcorp CC</p>
-              </div>
-              <div className="text-center">
-                <p className="text-[#dc2626] font-bold text-xl">VS</p>
-              </div>
-              <div className="text-center flex-1">
-                <div className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center font-bold text-white text-sm mx-auto mb-2">
-                  {nextMatch.opponent.slice(0, 2).toUpperCase()}
-                </div>
-                <p className="text-white font-semibold text-sm">{nextMatch.opponent}</p>
-              </div>
-            </div>
-            <div className="mt-5 pt-5 border-t border-white/10 space-y-1.5 text-sm text-gray-400">
+              );
+            })()}
+            <div className="mt-5 pt-5 border-t border-gray-100 space-y-1.5 text-sm text-gray-500">
               <p>
-                <span className="text-gray-500">Date:</span>{" "}
-                {new Date(nextMatch.date).toLocaleDateString("en-GB", {
-                  weekday: "long",
+                <span className="text-gray-400">Date:</span>{" "}
+                {nextMatch.day},{" "}
+                {new Date(nextMatch.date + "T00:00:00").toLocaleDateString("en-GB", {
                   day: "numeric",
                   month: "long",
                   year: "numeric",
                 })}
               </p>
               <p>
-                <span className="text-gray-500">Time:</span> {nextMatch.time}
+                <span className="text-gray-400">Venue:</span> {nextMatch.venue}
               </p>
               <p>
-                <span className="text-gray-500">Venue:</span> {nextMatch.venue}
+                <span className="text-gray-400">{nextMatch.isHome ? "Home" : "Away"} game</span>
               </p>
             </div>
           </div>
 
           {/* Latest Result */}
-          <div className="bg-[#1a1a1a] border border-white/10 rounded-2xl p-6">
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
             <div className="flex items-center justify-between mb-5">
-              <h2 className="text-white font-bold text-lg">Latest Result</h2>
+              <h2 className="text-gray-900 font-bold text-lg">Latest Result</h2>
               <span
-                className={`text-xs px-2.5 py-1 rounded-full font-medium ${
+                className={`text-xs px-2.5 py-1 rounded-full font-medium border ${
                   latestResult.result === "won"
-                    ? "bg-green-500/20 text-green-400"
-                    : "bg-red-500/20 text-red-400"
+                    ? "bg-green-50 text-green-700 border-green-200"
+                    : "bg-red-50 text-red-700 border-red-200"
                 }`}
               >
                 {latestResult.result === "won" ? "Victory" : "Defeat"}
@@ -136,23 +161,23 @@ export default function HomePage() {
                 <div className="w-14 h-14 rounded-full bg-[#dc2626] flex items-center justify-center font-bold text-white text-sm mx-auto mb-2">
                   DC
                 </div>
-                <p className="text-white font-semibold text-sm">Dcorp CC</p>
+                <p className="text-gray-900 font-semibold text-sm">Dcorp CC</p>
                 <p className="text-[#dc2626] font-bold text-lg mt-1">{latestResult.dcorpScore}</p>
               </div>
               <div className="text-center">
-                <p className="text-gray-500 font-bold text-xl">VS</p>
+                <p className="text-gray-400 font-bold text-xl">VS</p>
               </div>
               <div className="text-center flex-1">
-                <div className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center font-bold text-white text-sm mx-auto mb-2">
+                <div className="w-14 h-14 rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-600 text-sm mx-auto mb-2">
                   {latestResult.opponent.slice(0, 2).toUpperCase()}
                 </div>
-                <p className="text-white font-semibold text-sm">{latestResult.opponent}</p>
-                <p className="text-gray-400 font-bold text-lg mt-1">{latestResult.opponentScore}</p>
+                <p className="text-gray-900 font-semibold text-sm">{latestResult.opponent}</p>
+                <p className="text-gray-500 font-bold text-lg mt-1">{latestResult.opponentScore}</p>
               </div>
             </div>
-            <div className="mt-5 pt-5 border-t border-white/10 text-sm text-gray-400">
+            <div className="mt-5 pt-5 border-t border-gray-100 text-sm text-gray-500">
               <p>
-                <span className="text-gray-500">MOTM:</span> {latestResult.motm}
+                <span className="text-gray-400">MOTM:</span> {latestResult.motm}
               </p>
             </div>
           </div>
@@ -160,40 +185,42 @@ export default function HomePage() {
       </section>
 
       {/* Latest News */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-white text-2xl font-bold">Latest News</h2>
-          <Link
-            href="/news"
-            className="text-[#dc2626] text-sm font-medium hover:text-[#b91c1c] transition-colors"
-          >
-            View all &rarr;
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {latestNews.map((item) => (
-            <article
-              key={item.id}
-              className="bg-[#1a1a1a] border border-white/10 rounded-2xl p-6 hover:border-[#dc2626]/40 transition-colors"
+      <section className="bg-gray-50 border-t border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-gray-900 text-2xl font-bold">Latest News</h2>
+            <Link
+              href="/news"
+              className="text-[#dc2626] text-sm font-medium hover:text-[#b91c1c] transition-colors"
             >
-              <span className="text-xs bg-[#dc2626]/20 text-[#dc2626] px-2.5 py-1 rounded-full font-medium">
-                {item.category}
-              </span>
-              <h3 className="text-white font-semibold text-base mt-3 mb-2 leading-snug">
-                {item.title}
-              </h3>
-              <p className="text-gray-400 text-sm leading-relaxed line-clamp-3">
-                {item.excerpt}
-              </p>
-              <p className="text-gray-600 text-xs mt-4">
-                {new Date(item.date).toLocaleDateString("en-GB", {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </p>
-            </article>
-          ))}
+              View all &rarr;
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {latestNews.map((item) => (
+              <article
+                key={item.id}
+                className="bg-white border border-gray-200 rounded-2xl p-6 hover:border-red-200 hover:shadow-sm transition-all"
+              >
+                <span className="text-xs bg-red-50 text-[#dc2626] border border-red-100 px-2.5 py-1 rounded-full font-medium">
+                  {item.category}
+                </span>
+                <h3 className="text-gray-900 font-semibold text-base mt-3 mb-2 leading-snug">
+                  {item.title}
+                </h3>
+                <p className="text-gray-500 text-sm leading-relaxed line-clamp-3">
+                  {item.excerpt}
+                </p>
+                <p className="text-gray-400 text-xs mt-4">
+                  {new Date(item.date).toLocaleDateString("en-GB", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 

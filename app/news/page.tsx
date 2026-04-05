@@ -7,9 +7,9 @@ export const metadata: Metadata = {
 };
 
 const categoryColors: Record<string, string> = {
-  "Match Report": "bg-blue-500/20 text-blue-400",
-  "Club News": "bg-yellow-500/20 text-yellow-400",
-  Recruitment: "bg-green-500/20 text-green-400",
+  "Match Report": "bg-blue-50 text-blue-700 border-blue-200",
+  "Club News": "bg-yellow-50 text-yellow-700 border-yellow-200",
+  Recruitment: "bg-green-50 text-green-700 border-green-200",
 };
 
 export default function NewsPage() {
@@ -19,23 +19,23 @@ export default function NewsPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       {/* Header */}
       <div className="mb-12 text-center">
-        <h1 className="text-4xl font-extrabold text-white mb-3">News &amp; Updates</h1>
-        <p className="text-gray-400 text-lg max-w-xl mx-auto">
+        <h1 className="text-4xl font-extrabold text-gray-900 mb-3">News &amp; Updates</h1>
+        <p className="text-gray-500 text-lg max-w-xl mx-auto">
           Match reports, club announcements, and everything happening at Dcorp CC.
         </p>
       </div>
 
       {/* Featured Article */}
-      <article className="bg-[#1a1a1a] border border-white/10 rounded-2xl p-8 mb-8 hover:border-[#dc2626]/40 transition-colors">
+      <article className="bg-white border border-gray-200 rounded-2xl p-8 mb-8 hover:border-red-200 hover:shadow-sm transition-all">
         <div className="flex flex-wrap items-center gap-3 mb-4">
           <span
-            className={`text-xs px-2.5 py-1 rounded-full font-medium ${
-              categoryColors[featured.category] ?? "bg-[#dc2626]/20 text-[#dc2626]"
+            className={`text-xs px-2.5 py-1 rounded-full font-medium border ${
+              categoryColors[featured.category] ?? "bg-red-50 text-[#dc2626] border-red-200"
             }`}
           >
             {featured.category}
           </span>
-          <span className="text-gray-500 text-xs">
+          <span className="text-gray-400 text-xs">
             {new Date(featured.date).toLocaleDateString("en-GB", {
               day: "numeric",
               month: "long",
@@ -46,9 +46,9 @@ export default function NewsPage() {
             Featured
           </span>
         </div>
-        <h2 className="text-white text-2xl font-bold mb-4 leading-snug">{featured.title}</h2>
-        <p className="text-gray-300 text-base leading-relaxed mb-4">{featured.excerpt}</p>
-        <p className="text-gray-400 text-sm leading-relaxed">{featured.content}</p>
+        <h2 className="text-gray-900 text-2xl font-bold mb-4 leading-snug">{featured.title}</h2>
+        <p className="text-gray-700 text-base leading-relaxed mb-4">{featured.excerpt}</p>
+        <p className="text-gray-500 text-sm leading-relaxed">{featured.content}</p>
       </article>
 
       {/* Rest of articles */}
@@ -56,17 +56,17 @@ export default function NewsPage() {
         {rest.map((item) => (
           <article
             key={item.id}
-            className="bg-[#1a1a1a] border border-white/10 rounded-2xl p-6 hover:border-[#dc2626]/40 transition-colors flex flex-col"
+            className="bg-white border border-gray-200 rounded-2xl p-6 hover:border-red-200 hover:shadow-sm transition-all flex flex-col"
           >
             <div className="flex items-center justify-between mb-4">
               <span
-                className={`text-xs px-2.5 py-1 rounded-full font-medium ${
-                  categoryColors[item.category] ?? "bg-[#dc2626]/20 text-[#dc2626]"
+                className={`text-xs px-2.5 py-1 rounded-full font-medium border ${
+                  categoryColors[item.category] ?? "bg-red-50 text-[#dc2626] border-red-200"
                 }`}
               >
                 {item.category}
               </span>
-              <span className="text-gray-600 text-xs">
+              <span className="text-gray-400 text-xs">
                 {new Date(item.date).toLocaleDateString("en-GB", {
                   day: "numeric",
                   month: "short",
@@ -74,10 +74,10 @@ export default function NewsPage() {
                 })}
               </span>
             </div>
-            <h2 className="text-white font-semibold text-base mb-3 leading-snug flex-1">
+            <h2 className="text-gray-900 font-semibold text-base mb-3 leading-snug flex-1">
               {item.title}
             </h2>
-            <p className="text-gray-400 text-sm leading-relaxed">{item.excerpt}</p>
+            <p className="text-gray-500 text-sm leading-relaxed">{item.excerpt}</p>
           </article>
         ))}
       </div>

@@ -1,23 +1,30 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0a0a0a] border-t border-white/10 mt-auto">
+    <footer className="bg-gray-900 border-t border-gray-800 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Brand */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-[#dc2626] flex items-center justify-center font-bold text-white text-sm">
-                DC
+              <div className="w-12 h-12 rounded-full overflow-hidden bg-black flex-shrink-0">
+                <Image
+                  src="/logo.jpeg"
+                  alt="Dcorp Cricket Club"
+                  width={48}
+                  height={48}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <span className="font-bold text-white text-lg">
                 Dcorp <span className="text-[#dc2626]">Cricket Club</span>
               </span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Building a cricketing community with passion, dedication, and the
-              love of the game. Join us on the pitch.
+              Est. 2014 — Building a cricketing community with passion,
+              dedication, and the love of the game.
             </p>
           </div>
 
@@ -53,12 +60,12 @@ export default function Footer() {
             <ul className="space-y-2 text-sm text-gray-400">
               <li>Greenfield Park Ground</li>
               <li>info@dcorpcc.club</li>
-              <li>Training: Tue & Thu, 6:30 PM</li>
+              <li>Training: Tue &amp; Thu, 6:30 PM</li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div className="mt-10 pt-6 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-2">
           <p className="text-gray-500 text-xs">
             &copy; {new Date().getFullYear()} Dcorp Cricket Club. All rights reserved.
           </p>
