@@ -34,7 +34,7 @@ export default function HomePage() {
             {/* Logo */}
             <div className="w-40 h-40 mb-6 drop-shadow-xl">
               <Image
-                src="/logo.jpeg"
+                src="/logo-v2.jpeg"
                 alt="Dcorp Cricket Club"
                 width={160}
                 height={160}

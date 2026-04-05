@@ -25,7 +25,7 @@ export default function Navbar() {
           <Link href="/" className="flex items-center gap-3 group">
             <div className="w-11 h-11 flex-shrink-0">
               <Image
-                src="/logo.jpeg"
+                src="/logo-v2.jpeg"
                 alt="Dcorp Cricket Club"
                 width={44}
                 height={44}
