@@ -9,13 +9,13 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-full overflow-hidden bg-black flex-shrink-0">
+              <div className="w-12 h-12 flex-shrink-0">
                 <Image
                   src="/logo.jpeg"
                   alt="Dcorp Cricket Club"
                   width={48}
                   height={48}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
               </div>
               <span className="font-bold text-white text-lg">

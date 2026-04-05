@@ -31,13 +31,13 @@ export default function HomePage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-28 text-center">
           {/* Logo */}
           <div className="flex justify-center mb-6">
-            <div className="w-32 h-32 rounded-full overflow-hidden bg-black shadow-xl ring-4 ring-[#dc2626]/20">
+            <div className="w-36 h-36">
               <Image
                 src="/logo.jpeg"
                 alt="Dcorp Cricket Club"
-                width={128}
-                height={128}
-                className="w-full h-full object-cover"
+                width={144}
+                height={144}
+                className="w-full h-full object-contain"
                 priority
               />
             </div>

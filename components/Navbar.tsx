@@ -23,13 +23,13 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-full overflow-hidden bg-black flex-shrink-0">
+            <div className="w-10 h-10 flex-shrink-0">
               <Image
                 src="/logo.jpeg"
                 alt="Dcorp Cricket Club"
                 width={40}
                 height={40}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             </div>
             <span className="font-bold text-gray-900 text-lg tracking-tight hidden sm:block">
