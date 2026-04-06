@@ -38,10 +38,13 @@ export default function PlayersPage() {
 
         {/* Player Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {players.map((player, i) => (
-            <div
+          {[...players].sort((a, b) => a.name.localeCompare(b.name)).map((player, i) => (
+            <a
               key={player.id}
-              className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 group"
+              href={`https://cricclubs.com/TSCL1/viewPlayer.do?playerId=${player.ccPlayerId}&clubId=1097646`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 group cursor-pointer"
             >
               {/* Card header */}
               <div className={`bg-gradient-to-br ${gradients[i % gradients.length]} px-4 py-5 flex flex-col items-center gap-3`}>
@@ -63,9 +66,14 @@ export default function PlayersPage() {
               {/* Card body */}
               <div className="px-4 py-3">
                 <p className="text-gray-900 font-semibold text-sm leading-tight text-center">{player.name}</p>
-                <p className="text-gray-400 text-[10px] text-center mt-1 font-mono">#{player.ccPlayerId}</p>
+                <div className="flex items-center justify-center gap-1 mt-1">
+                  <p className="text-gray-400 text-[10px] font-mono">#{player.ccPlayerId}</p>
+                  <svg className="w-3 h-3 text-gray-300 group-hover:text-[#dc2626] transition-colors duration-150" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
 
