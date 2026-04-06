@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import { fixtures, results } from "@/lib/data";
+import { createClient } from "@supabase/supabase-js";
+import { fixtures } from "@/lib/data";
 
 const stats = [
   {
@@ -41,9 +42,21 @@ const stats = [
   },
 ];
 
-export default function HomePage() {
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const supabase = createClient(
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_ANON_KEY!
+  );
+  const { data: results } = await supabase
+    .from("results")
+    .select("*")
+    .order("date", { ascending: false })
+    .limit(1);
+
   const nextMatch = fixtures[0];
-  const latestResult = results[0];
+  const latestResult = results?.[0] ?? null;
 
   return (
     <div>
@@ -195,44 +208,46 @@ export default function HomePage() {
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
             <div className="bg-gray-900 px-5 py-3 flex items-center justify-between">
               <span className="text-gray-400 text-xs font-semibold uppercase tracking-widest">Latest Result</span>
-              <span className={`text-xs font-bold uppercase tracking-widest ${latestResult.result === "won" ? "text-green-400" : "text-red-400"}`}>
-                {latestResult.result === "won" ? "Victory" : "Defeat"}
-              </span>
+              {latestResult && (
+                <span className={`text-xs font-bold uppercase tracking-widest ${latestResult.result === "won" ? "text-green-400" : "text-red-400"}`}>
+                  {latestResult.result === "won" ? "Victory" : "Defeat"}
+                </span>
+              )}
             </div>
             <div className="p-5">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="flex flex-col items-center flex-1 gap-1.5">
-                  <div className="w-14 h-14 rounded-2xl bg-[#dc2626] flex items-center justify-center text-white text-sm font-bold shadow-md shadow-red-200">
-                    DC
+              {!latestResult ? (
+                <p className="text-gray-400 text-sm text-center py-4">No results yet.</p>
+              ) : (
+                <>
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="flex flex-col items-center flex-1 gap-1.5">
+                      <div className="w-14 h-14 rounded-2xl bg-[#dc2626] flex items-center justify-center text-white text-sm font-bold shadow-md shadow-red-200">
+                        DC
+                      </div>
+                      <p className="text-gray-900 font-semibold text-sm">Dcorp CC</p>
+                      <p className="text-[#dc2626] font-bold text-lg leading-none">{latestResult.dcorp_score}</p>
+                    </div>
+                    <div className="text-center">
+                      <div className={`text-xs font-bold px-3 py-1.5 rounded-xl border ${latestResult.result === "won" ? "bg-green-50 text-green-700 border-green-200" : "bg-red-50 text-red-700 border-red-200"}`}>
+                        {latestResult.result === "won" ? "WON" : "LOST"}
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-center flex-1 gap-1.5">
+                      <div className="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center font-bold text-gray-600 text-sm">
+                        {latestResult.opponent.slice(0, 2).toUpperCase()}
+                      </div>
+                      <p className="text-gray-900 font-semibold text-sm">{latestResult.opponent}</p>
+                      <p className="text-gray-400 font-bold text-lg leading-none">{latestResult.opponent_score}</p>
+                    </div>
                   </div>
-                  <p className="text-gray-900 font-semibold text-sm">Dcorp CC</p>
-                  <p className="text-[#dc2626] font-bold text-lg leading-none">{latestResult.dcorpScore}</p>
-                </div>
-                <div className="text-center">
-                  <div
-                    className={`text-xs font-bold px-3 py-1.5 rounded-xl border ${
-                      latestResult.result === "won"
-                        ? "bg-green-50 text-green-700 border-green-200"
-                        : "bg-red-50 text-red-700 border-red-200"
-                    }`}
-                  >
-                    {latestResult.result === "won" ? "WON" : "LOST"}
+                  <div className="bg-gray-50 rounded-xl px-4 py-3 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Result</span>
+                      <span className="text-gray-900 font-medium">{latestResult.margin}</span>
+                    </div>
                   </div>
-                </div>
-                <div className="flex flex-col items-center flex-1 gap-1.5">
-                  <div className="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center font-bold text-gray-600 text-sm">
-                    {latestResult.opponent.slice(0, 2).toUpperCase()}
-                  </div>
-                  <p className="text-gray-900 font-semibold text-sm">{latestResult.opponent}</p>
-                  <p className="text-gray-400 font-bold text-lg leading-none">{latestResult.opponentScore}</p>
-                </div>
-              </div>
-              <div className="bg-gray-50 rounded-xl px-4 py-3 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Result</span>
-                  <span className="text-gray-900 font-medium">{latestResult.margin}</span>
-                </div>
-              </div>
+                </>
+              )}
             </div>
           </div>
         </div>
