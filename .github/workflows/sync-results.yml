@@ -40,3 +40,4 @@ jobs:
         with:
           name: debug-screenshot
           path: debug-screenshot.png
+          if-no-files-found: ignore
