@@ -100,7 +100,7 @@ export default function Footer() {
               </li>
               <li className="flex items-start gap-2.5">
                 <IconClock />
-                <span>Training: Tue &amp; Thu, 6:30 PM</span>
+                <span>Training: Thu, 6:30 PM</span>
               </li>
             </ul>
           </div>

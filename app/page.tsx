@@ -13,7 +13,7 @@ const stats = [
     ),
   },
   {
-    value: "8+",
+    value: "10+",
     label: "Seasons Active",
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>

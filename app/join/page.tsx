@@ -51,7 +51,7 @@ const perks = [
       </svg>
     ),
     title: "Regular Training",
-    desc: "Structured sessions every Tuesday and Thursday evening.",
+    desc: "Structured sessions every Thursday evening at 6:30 PM.",
   },
 ];
 
@@ -99,7 +99,7 @@ export default function JoinPage() {
               <p className="text-gray-600 text-sm leading-relaxed">
                 Reach us at{" "}
                 <span className="font-semibold text-gray-900">info@dcorpcc.club</span> or come to
-                training on Tuesday or Thursday at 6:30 PM.
+                training on Thursday at 6:30 PM.
               </p>
             </div>
           </div>

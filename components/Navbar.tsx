@@ -10,7 +10,6 @@ const links = [
   { href: "/players", label: "Players" },
   { href: "/fixtures", label: "Fixtures & Results" },
   { href: "/gallery", label: "Gallery" },
-  { href: "/join", label: "Join Us" },
 ];
 
 export default function Navbar() {
@@ -103,6 +102,15 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+            <div className="pt-2 pb-1">
+              <Link
+                href="/join"
+                onClick={() => setOpen(false)}
+                className="flex items-center justify-center w-full bg-[#dc2626] hover:bg-[#b91c1c] text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors duration-150"
+              >
+                Join Us
+              </Link>
+            </div>
           </div>
         </div>
       )}
