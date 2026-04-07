@@ -2,6 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@supabase/supabase-js";
 import { fixtures } from "@/lib/data";
+import PhotoStrip from "@/components/PhotoStrip";
+
+const BUCKET = "Dcorp-cricket";
 
 const stats = [
   {
@@ -32,7 +35,7 @@ const stats = [
     ),
   },
   {
-    value: "3",
+    value: "2",
     label: "League Titles",
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -49,84 +52,120 @@ export default async function HomePage() {
     process.env.SUPABASE_URL!,
     process.env.SUPABASE_ANON_KEY!
   );
-  const { data: results } = await supabase
-    .from("results")
-    .select("*")
-    .order("date", { ascending: false })
-    .limit(1);
+
+  const [{ data: results }, { data: files }] = await Promise.all([
+    supabase.from("results").select("*").order("date", { ascending: false }).limit(1),
+    supabase.storage.from(BUCKET).list("", { limit: 50, sortBy: { column: "created_at", order: "desc" } }),
+  ]);
 
   const nextMatch = fixtures[0];
   const latestResult = results?.[0] ?? null;
 
+  const imageUrls =
+    files
+      ?.filter((f) => f.name !== ".emptyFolderPlaceholder" && /\.(jpe?g|png|webp|gif|avif)$/i.test(f.name))
+      .map((f) => supabase.storage.from(BUCKET).getPublicUrl(f.name).data.publicUrl) ?? [];
+
+  const heroImages = imageUrls.slice(0, 4);
+  const previewImages = imageUrls.slice(0, 6);
+
   return (
     <div>
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden bg-gray-900">
-        {/* Diagonal stripe pattern */}
+      <section className="relative overflow-hidden bg-gray-900 min-h-[80vh] flex items-center">
+        {/* Background pattern */}
         <div
-          className="absolute inset-0 opacity-[0.06]"
+          className="absolute inset-0 opacity-[0.04]"
           style={{
-            backgroundImage:
-              "repeating-linear-gradient(-45deg, #dc2626 0, #dc2626 1px, transparent 0, transparent 50%)",
+            backgroundImage: "repeating-linear-gradient(-45deg, #dc2626 0, #dc2626 1px, transparent 0, transparent 50%)",
             backgroundSize: "20px 20px",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800" />
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-900/95 to-gray-800" />
         <div className="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-[#dc2626] opacity-10 blur-3xl" />
         <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[#dc2626] opacity-5 blur-3xl" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-32">
-          <div className="flex flex-col items-center text-center">
-            <div className="w-28 h-28 sm:w-36 sm:h-36 mb-8 drop-shadow-2xl">
-              <Image
-                src="/logo-v2.jpeg"
-                alt="Dcorp Cricket Club"
-                width={144}
-                height={144}
-                className="w-full h-full object-contain"
-                priority
-              />
+        <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+            {/* Left: Text */}
+            <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
+              <div className="w-24 h-24 sm:w-28 sm:h-28 mb-7 drop-shadow-2xl">
+                <Image
+                  src="/logo-v2.jpeg"
+                  alt="Dcorp Cricket Club"
+                  width={112}
+                  height={112}
+                  className="w-full h-full object-contain"
+                  priority
+                />
+              </div>
+
+              <div className="flex items-center gap-2 mb-4">
+                <span className="w-8 h-px bg-[#dc2626]" />
+                <span className="text-[#dc2626] text-xs font-bold uppercase tracking-widest">
+                  Est. 2014 · Oklahoma City
+                </span>
+                <span className="w-8 h-px bg-[#dc2626]" />
+              </div>
+
+              <h1 className="font-display text-6xl sm:text-7xl font-bold text-white tracking-tight leading-none mb-5">
+                Dcorp{" "}
+                <span className="text-[#dc2626]">Cricket</span>
+                <br />
+                Club
+              </h1>
+
+              <p className="text-base sm:text-lg text-gray-400 max-w-md leading-relaxed mb-7">
+                Passionate cricket. Serious competition. A community built for players who love the game.
+              </p>
+
+              <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 text-sm text-gray-300 font-medium mb-8">
+                <span className="w-2 h-2 rounded-full bg-[#dc2626] animate-pulse" />
+                Now Recruiting — TSCL 35 2026
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link
+                  href="/join"
+                  className="bg-[#dc2626] hover:bg-[#b91c1c] text-white font-semibold px-8 py-3.5 rounded-xl transition-all duration-200 text-sm shadow-lg shadow-red-900/40 hover:shadow-xl hover:-translate-y-0.5 cursor-pointer"
+                >
+                  Join the Club
+                </Link>
+                <Link
+                  href="/fixtures"
+                  className="bg-white/10 hover:bg-white/15 border border-white/10 text-white font-semibold px-8 py-3.5 rounded-xl transition-all duration-200 text-sm hover:-translate-y-0.5 cursor-pointer"
+                >
+                  View Fixtures →
+                </Link>
+              </div>
             </div>
 
-            <div className="flex items-center gap-2 mb-5">
-              <span className="w-8 h-px bg-[#dc2626]" />
-              <span className="text-[#dc2626] text-xs font-bold uppercase tracking-widest">
-                Est. 2014 · Oklahoma City
-              </span>
-              <span className="w-8 h-px bg-[#dc2626]" />
-            </div>
-
-            <h1 className="font-display text-6xl sm:text-8xl font-bold text-white tracking-tight leading-none mb-5">
-              Dcorp{" "}
-              <span className="text-[#dc2626]">Cricket</span>
-              <br />
-              Club
-            </h1>
-
-            <p className="text-base sm:text-xl text-gray-400 max-w-xl leading-relaxed mb-8">
-              Passionate cricket. Serious competition. A community built for players who love the
-              game.
-            </p>
-
-            <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 text-sm text-gray-300 font-medium mb-10">
-              <span className="w-2 h-2 rounded-full bg-[#dc2626] animate-pulse" />
-              Now Recruiting — TSCL 35 2026
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Link
-                href="/join"
-                className="bg-[#dc2626] hover:bg-[#b91c1c] text-white font-semibold px-8 py-3.5 rounded-xl transition-all duration-200 text-sm shadow-lg shadow-red-900/40 hover:shadow-xl hover:-translate-y-0.5 cursor-pointer"
-              >
-                Join the Club
-              </Link>
-              <Link
-                href="/fixtures"
-                className="bg-white/10 hover:bg-white/15 border border-white/10 text-white font-semibold px-8 py-3.5 rounded-xl transition-all duration-200 text-sm hover:-translate-y-0.5 cursor-pointer"
-              >
-                View Fixtures →
-              </Link>
-            </div>
+            {/* Right: Photo mosaic */}
+            {heroImages.length >= 2 && (
+              <div className="hidden lg:grid grid-cols-2 gap-3 h-[420px]">
+                {heroImages.slice(0, 2).map((url, i) => (
+                  <div
+                    key={i}
+                    className={`relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl ${i === 0 ? "row-span-2" : ""}`}
+                    style={{ transform: i % 2 === 1 ? "translateY(20px)" : undefined }}
+                  >
+                    <Image src={url} alt="" fill className="object-cover" sizes="300px" priority />
+                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/40 to-transparent" />
+                  </div>
+                ))}
+                {heroImages.slice(2, 4).map((url, i) => (
+                  <div
+                    key={i + 2}
+                    className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl"
+                    style={{ transform: i % 2 === 0 ? "translateY(-10px)" : "translateY(10px)" }}
+                  >
+                    <Image src={url} alt="" fill className="object-cover" sizes="300px" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/30 to-transparent" />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
@@ -149,6 +188,9 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ── Photo Strip ── */}
+      <PhotoStrip urls={imageUrls} />
 
       {/* ── Next Match + Latest Result ── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
@@ -277,7 +319,6 @@ export default async function HomePage() {
           </div>
 
           <div className="space-y-10">
-            {/* League Titles & Finals */}
             <div>
               <p className="text-xs font-bold text-[#dc2626] uppercase tracking-widest mb-4">League Trophies</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -303,7 +344,6 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* Records */}
             <div>
               <p className="text-xs font-bold text-[#dc2626] uppercase tracking-widest mb-4">Club Records</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -320,7 +360,6 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* Individual Awards */}
             <div>
               <p className="text-xs font-bold text-[#dc2626] uppercase tracking-widest mb-4">Individual Awards</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -343,7 +382,7 @@ export default async function HomePage() {
       </section>
 
       {/* ── Gallery Preview ── */}
-      <section className="bg-gray-50 border-t border-gray-100">
+      <section className="bg-white border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3">
@@ -357,22 +396,38 @@ export default async function HomePage() {
               View all →
             </Link>
           </div>
-          <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-all duration-200">
-            <Link href="/gallery" className="flex items-center gap-6 p-8 group cursor-pointer">
-              <div className="w-16 h-16 rounded-2xl bg-red-50 border border-red-100 flex items-center justify-center flex-shrink-0">
-                <svg className="w-7 h-7 text-[#dc2626]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <div className="flex-1">
-                <p className="text-gray-900 font-semibold mb-1">Club Photo Gallery</p>
-                <p className="text-gray-500 text-sm">Browse photos from matches, training sessions, and club events.</p>
-              </div>
-              <svg className="w-5 h-5 text-gray-300 group-hover:text-[#dc2626] group-hover:translate-x-1 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
-          </div>
+
+          {previewImages.length > 0 ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {previewImages.map((url, i) => (
+                <Link
+                  key={i}
+                  href="/gallery"
+                  className={`group relative rounded-2xl overflow-hidden bg-gray-100 border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer ${i === 0 ? "sm:col-span-2 sm:row-span-2 aspect-square sm:aspect-auto sm:h-72" : "aspect-square"}`}
+                >
+                  <Image
+                    src={url}
+                    alt=""
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 400px"
+                  />
+                  <div className="absolute inset-0 bg-gray-900/0 group-hover:bg-gray-900/20 transition-colors duration-200" />
+                  {i === 0 && (
+                    <div className="absolute bottom-4 left-4">
+                      <span className="bg-black/50 text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-sm">
+                        View Gallery →
+                      </span>
+                    </div>
+                  )}
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="bg-gray-50 border border-gray-100 rounded-2xl p-12 text-center">
+              <p className="text-gray-400 text-sm">No photos yet.</p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -381,8 +436,7 @@ export default async function HomePage() {
         <div
           className="absolute inset-0 opacity-[0.05]"
           style={{
-            backgroundImage:
-              "repeating-linear-gradient(45deg, #dc2626 0, #dc2626 1px, transparent 0, transparent 50%)",
+            backgroundImage: "repeating-linear-gradient(45deg, #dc2626 0, #dc2626 1px, transparent 0, transparent 50%)",
             backgroundSize: "14px 14px",
           }}
         />
