@@ -268,6 +268,80 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ── Honours Board ── */}
+      <section className="bg-gray-900 border-t border-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+          <div className="flex items-center gap-3 mb-10">
+            <span className="w-1 h-6 bg-[#dc2626] rounded-full" />
+            <h2 className="font-display text-2xl font-bold text-white tracking-tight">Honours Board</h2>
+          </div>
+
+          <div className="space-y-10">
+            {/* League Titles & Finals */}
+            <div>
+              <p className="text-xs font-bold text-[#dc2626] uppercase tracking-widest mb-4">League Trophies</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {[
+                  { year: "2018", title: "35-over Winners", icon: "🏆", highlight: true },
+                  { year: "2024", title: "T20 Winners", icon: "🏆", highlight: true },
+                  { year: "2017", title: "T20 Runner-up", icon: "🥈", highlight: false },
+                  { year: "2018", title: "T20 Runner-up", icon: "🥈", highlight: false },
+                  { year: "2017", title: "35-over Semi-Finals", icon: "🏅", highlight: false },
+                  { year: "2024", title: "35-over Runner-up", icon: "🥈", highlight: false },
+                ].map((item, i) => (
+                  <div
+                    key={i}
+                    className={`flex items-center gap-4 px-5 py-4 rounded-xl border ${item.highlight ? "bg-[#dc2626]/10 border-[#dc2626]/30" : "bg-white/5 border-white/10"}`}
+                  >
+                    <span className="text-2xl">{item.icon}</span>
+                    <div>
+                      <p className={`font-bold text-sm ${item.highlight ? "text-white" : "text-gray-300"}`}>{item.title}</p>
+                      <p className="text-gray-500 text-xs">{item.year}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Records */}
+            <div>
+              <p className="text-xs font-bold text-[#dc2626] uppercase tracking-widest mb-4">Club Records</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {[
+                  { label: "Playoff appearances", value: "Every season 2017–2026" },
+                  { label: "Best final chase", value: "2024 T20 — Won by 10 Wickets" },
+                  { label: "Back-to-back T20 hundreds", value: "2024 Semis & Final — Rohit" },
+                ].map((item, i) => (
+                  <div key={i} className="bg-white/5 border border-white/10 rounded-xl px-5 py-4">
+                    <p className="text-gray-400 text-xs mb-1">{item.label}</p>
+                    <p className="text-white font-semibold text-sm">{item.value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Individual Awards */}
+            <div>
+              <p className="text-xs font-bold text-[#dc2626] uppercase tracking-widest mb-4">Individual Awards</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {[
+                  { year: "2017", award: "Best Wicket Keeper T20", player: "Bhargav Meda" },
+                  { year: "2021", award: "Best Bowler T20", player: "Aditya Teekayagari" },
+                  { year: "2025", award: "Best Bowler T20", player: "Vivek Terapalli" },
+                  { year: "2025", award: "Best Wicket Keeper", player: "Jayadeep Reddy" },
+                ].map((item, i) => (
+                  <div key={i} className="bg-white/5 border border-white/10 rounded-xl px-5 py-4">
+                    <p className="text-[#dc2626] text-xs font-bold mb-1">{item.year}</p>
+                    <p className="text-white font-semibold text-sm leading-snug">{item.award}</p>
+                    <p className="text-gray-400 text-xs mt-1">{item.player}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── Gallery Preview ── */}
       <section className="bg-gray-50 border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
