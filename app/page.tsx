@@ -240,11 +240,26 @@ export default async function HomePage() {
                       <p className="text-gray-400 font-bold text-lg leading-none">{latestResult.opponent_score}</p>
                     </div>
                   </div>
-                  <div className="bg-gray-50 rounded-xl px-4 py-3 text-sm">
+                  <div className="bg-gray-50 rounded-xl px-4 py-3 text-sm space-y-2">
                     <div className="flex justify-between">
                       <span className="text-gray-400">Result</span>
                       <span className="text-gray-900 font-medium">{latestResult.margin}</span>
                     </div>
+                    {latestResult.match_id && (
+                      <div className="flex justify-end">
+                        <a
+                          href={`https://cricclubs.com/TSCL1/viewScorecard.do?matchId=${latestResult.match_id}&clubId=1097646`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-[#dc2626] hover:underline font-semibold text-xs"
+                        >
+                          View Scorecard
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-3 h-3">
+                            <path fillRule="evenodd" d="M4.22 11.78a.75.75 0 0 1 0-1.06l5.69-5.69H6.75a.75.75 0 0 1 0-1.5h4.5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0V5.56l-5.69 5.69a.75.75 0 0 1-1.06 0Z" clipRule="evenodd" />
+                          </svg>
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </>
               )}
