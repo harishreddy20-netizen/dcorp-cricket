@@ -141,9 +141,8 @@ export default function GalleryGrid({ images }: { images: GalleryImage[] }) {
             </button>
           )}
 
-          {/* Caption + counter */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1">
-            <p className="text-white/80 text-sm font-medium capitalize">{label(selected.name)}</p>
+          {/* Counter */}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
             <p className="text-white/40 text-xs">{selectedIdx + 1} / {images.length}</p>
           </div>
         </div>
