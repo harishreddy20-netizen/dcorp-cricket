@@ -65,7 +65,9 @@ async function scrapeResults(page) {
       const cells = Array.from(tr.querySelectorAll("td")).map((td) =>
         td.innerText.trim()
       );
-      return cells;
+      // Extract matchId from row id attribute (e.g. "row1096" → 1096)
+      const matchId = tr.id ? parseInt(tr.id.replace("row", ""), 10) : null;
+      return { cells, matchId };
     })
   );
 
@@ -73,7 +75,7 @@ async function scrapeResults(page) {
 
   const results = [];
 
-  for (const cells of rows) {
+  for (const { cells, matchId } of rows) {
     // Columns: [0]=SNO, [1]=Match Type, [2]=Date, [3]=Team One, [4]=Team Two, [5]=Result, [6]=Score Summary, [7]=Points
     if (cells.length < 6) continue;
 
@@ -129,6 +131,7 @@ async function scrapeResults(page) {
       opponent_score: opponentScore,
       result,
       margin: resultText.trim(),
+      match_id: matchId || null,
     });
   }
 

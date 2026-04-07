@@ -10,6 +10,9 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
+const CLUB_ID = "1097646";
+const LEAGUE = "TSCL1";
+
 type Result = {
   id: number;
   opponent: string;
@@ -19,6 +22,7 @@ type Result = {
   opponent_score: string;
   result: "won" | "lost";
   margin: string;
+  match_id: number | null;
 };
 
 function groupByMonth(items: typeof fixtures) {
@@ -189,6 +193,19 @@ export default async function FixturesPage() {
                           <span>{new Date(match.date + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</span>
                         </div>
                         <p className="text-gray-400">{match.margin}</p>
+                        {match.match_id && (
+                          <a
+                            href={`https://cricclubs.com/${LEAGUE}/viewScorecard.do?matchId=${match.match_id}&clubId=${CLUB_ID}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-[#dc2626] hover:underline font-semibold mt-0.5"
+                          >
+                            View Scorecard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-3 h-3">
+                              <path fillRule="evenodd" d="M4.22 11.78a.75.75 0 0 1 0-1.06l5.69-5.69H6.75a.75.75 0 0 1 0-1.5h4.5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0V5.56l-5.69 5.69a.75.75 0 0 1-1.06 0Z" clipRule="evenodd" />
+                            </svg>
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>
