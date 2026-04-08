@@ -92,7 +92,7 @@ export default async function HomePage() {
             <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
               <div className="w-24 h-24 sm:w-28 sm:h-28 mb-7 drop-shadow-2xl">
                 <Image
-                  src="/logo-v2.jpeg"
+                  src="/logo-v3.png"
                   alt="Dcorp Cricket Club"
                   width={112}
                   height={112}

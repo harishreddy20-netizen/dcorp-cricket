@@ -39,7 +39,7 @@ export default function Footer() {
             <div className="flex items-center gap-3 mb-4">
               <div className="w-12 h-12 flex-shrink-0">
                 <Image
-                  src="/logo-v2.jpeg"
+                  src="/logo-v3.png"
                   alt="Dcorp Cricket Club"
                   width={48}
                   height={48}
