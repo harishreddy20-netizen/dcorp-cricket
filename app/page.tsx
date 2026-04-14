@@ -47,6 +47,18 @@ const stats = [
 
 export const dynamic = "force-dynamic";
 
+export const metadata = {
+  title: "Dcorp Cricket Club | Oklahoma City",
+  description:
+    "Dcorp Cricket Club — Oklahoma City's competitive cricket club in TSCL since 2014. View fixtures, results, squad and join the club.",
+  openGraph: {
+    title: "Dcorp Cricket Club | Oklahoma City",
+    description:
+      "Oklahoma City's competitive cricket club playing in TSCL since 2014. View fixtures, results, squad and join the club.",
+    url: "https://dcorpcc.com",
+  },
+};
+
 export default async function HomePage() {
   const supabase = createClient(
     process.env.SUPABASE_URL!,
@@ -403,7 +415,7 @@ export default async function HomePage() {
                 <Link
                   key={i}
                   href="/gallery"
-                  className={`group relative rounded-2xl overflow-hidden bg-gray-100 border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer ${i === 0 ? "sm:col-span-2 sm:row-span-2 aspect-square sm:aspect-auto sm:h-72" : "aspect-square"}`}
+                  className="group relative aspect-square rounded-2xl overflow-hidden bg-gray-100 border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
                 >
                   <Image
                     src={url}
