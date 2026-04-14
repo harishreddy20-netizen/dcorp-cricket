@@ -6,6 +6,7 @@ import PageBanner from "@/components/PageBanner";
 export const metadata: Metadata = {
   title: "Fixtures & Results",
   description: "Upcoming fixtures and past match results for Dcorp Cricket Club.",
+  alternates: { canonical: "https://dcorpcc.com/fixtures" },
 };
 
 export const dynamic = "force-dynamic";
@@ -50,8 +51,36 @@ export default async function FixturesPage() {
 
   const grouped = groupByMonth(fixtures);
 
+  const eventSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Dcorp Cricket Club 2026 Fixtures",
+    itemListElement: fixtures.map((f, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: {
+        "@type": "SportsEvent",
+        name: `Dcorp CC vs ${f.opponent}`,
+        startDate: `${f.date}T00:00:00`,
+        location: {
+          "@type": "Place",
+          name: f.venue,
+          address: { "@type": "PostalAddress", addressLocality: "Oklahoma City", addressRegion: "OK" },
+        },
+        competitor: [
+          { "@type": "SportsTeam", name: "Dcorp Cricket Club" },
+          { "@type": "SportsTeam", name: f.opponent },
+        ],
+      },
+    })),
+  };
+
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(eventSchema) }}
+      />
       <PageBanner
         eyebrow="Season 2026"
         title="Fixtures & Results"

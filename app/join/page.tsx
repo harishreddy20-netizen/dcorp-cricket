@@ -5,6 +5,7 @@ import PageBanner from "@/components/PageBanner";
 export const metadata: Metadata = {
   title: "Join Us",
   description: "Apply to join Dcorp Cricket Club and become part of our cricketing community.",
+  alternates: { canonical: "https://dcorpcc.com/join" },
 };
 
 const perks = [

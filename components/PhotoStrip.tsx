@@ -20,7 +20,7 @@ export default function PhotoStrip({ urls }: { urls: string[] }) {
               key={i}
               className="relative w-48 h-32 flex-shrink-0 rounded-xl overflow-hidden border border-white/5 shadow-lg"
             >
-              <Image src={url} alt="" fill className="object-cover" sizes="192px" />
+              <Image src={url} alt="Dcorp Cricket Club photo" fill className="object-cover" sizes="192px" />
             </div>
           ))}
         </div>
@@ -37,7 +37,7 @@ export default function PhotoStrip({ urls }: { urls: string[] }) {
               key={i}
               className="relative w-48 h-32 flex-shrink-0 rounded-xl overflow-hidden border border-white/5 shadow-lg"
             >
-              <Image src={url} alt="" fill className="object-cover" sizes="192px" />
+              <Image src={url} alt="Dcorp Cricket Club photo" fill className="object-cover" sizes="192px" />
             </div>
           ))}
         </div>

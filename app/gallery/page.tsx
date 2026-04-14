@@ -8,6 +8,7 @@ import GalleryGrid from "./GalleryGrid";
 export const metadata: Metadata = {
   title: "Gallery",
   description: "Photos from Dcorp Cricket Club matches, training sessions, and club events.",
+  alternates: { canonical: "https://dcorpcc.com/gallery" },
 };
 
 const BUCKET = "Dcorp-cricket";

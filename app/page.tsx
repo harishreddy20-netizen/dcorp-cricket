@@ -51,6 +51,7 @@ export const metadata = {
   title: "Dcorp Cricket Club | Oklahoma City",
   description:
     "Dcorp Cricket Club — Oklahoma City's competitive cricket club in TSCL since 2014. View fixtures, results, squad and join the club.",
+  alternates: { canonical: "https://dcorpcc.com" },
   openGraph: {
     title: "Dcorp Cricket Club | Oklahoma City",
     description:
@@ -162,7 +163,7 @@ export default async function HomePage() {
                     className={`relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl ${i === 0 ? "row-span-2" : ""}`}
                     style={{ transform: i % 2 === 1 ? "translateY(20px)" : undefined }}
                   >
-                    <Image src={url} alt="" fill className="object-cover" sizes="300px" priority />
+                    <Image src={url} alt="Dcorp Cricket Club match photo" fill className="object-cover" sizes="300px" priority />
                     <div className="absolute inset-0 bg-gradient-to-t from-gray-900/40 to-transparent" />
                   </div>
                 ))}
@@ -172,7 +173,7 @@ export default async function HomePage() {
                     className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl"
                     style={{ transform: i % 2 === 0 ? "translateY(-10px)" : "translateY(10px)" }}
                   >
-                    <Image src={url} alt="" fill className="object-cover" sizes="300px" />
+                    <Image src={url} alt="Dcorp Cricket Club match photo" fill className="object-cover" sizes="300px" />
                     <div className="absolute inset-0 bg-gradient-to-t from-gray-900/30 to-transparent" />
                   </div>
                 ))}
@@ -419,7 +420,7 @@ export default async function HomePage() {
                 >
                   <Image
                     src={url}
-                    alt=""
+                    alt="Dcorp Cricket Club gallery photo"
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 400px"

@@ -56,11 +56,14 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Dcorp Cricket Club | Oklahoma City",
     description:
       "Oklahoma City's competitive cricket club playing in TSCL since 2014.",
     images: ["/logo-v3.png"],
+  },
+  alternates: {
+    canonical: BASE_URL,
   },
   robots: {
     index: true,

@@ -5,6 +5,7 @@ import PageBanner from "@/components/PageBanner";
 export const metadata: Metadata = {
   title: "Players",
   description: "Meet the Dcorp Cricket Club squad — TSCL 35 2026 registered players.",
+  alternates: { canonical: "https://dcorpcc.com/players" },
 };
 
 function initials(name: string) {
