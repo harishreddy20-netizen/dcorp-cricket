@@ -67,19 +67,25 @@ export async function POST(req: Request) {
   const waMessage = `🏏 *New Join Application*\n\n*Name:* ${name}\n*Role:* ${roleLabel[role] ?? role}\n*Experience:* ${experience}\n*Phone:* ${phone || "—"}\n*Email:* ${email}${message ? `\n*Message:* ${message}` : ""}`;
 
   try {
-    await fetch(
-      `https://api.green-api.com/waInstance${process.env.GREEN_API_INSTANCE_ID}/sendMessage/${process.env.GREEN_API_TOKEN}`,
+    const instanceId = process.env.GREEN_API_INSTANCE_ID;
+    const apiToken = process.env.GREEN_API_TOKEN;
+    const groupId = process.env.WHATSAPP_GROUP_ID;
+    console.log("WhatsApp env check:", { instanceId: !!instanceId, apiToken: !!apiToken, groupId: !!groupId });
+
+    const waRes = await fetch(
+      `https://api.green-api.com/waInstance${instanceId}/sendMessage/${apiToken}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          chatId: process.env.WHATSAPP_GROUP_ID,
+          chatId: groupId,
           message: waMessage,
         }),
       }
     );
+    const waData = await waRes.json();
+    console.log("WhatsApp response:", JSON.stringify(waData));
   } catch (err) {
-    // Don't fail the request if WhatsApp notification fails
     console.error("WhatsApp notification error:", err);
   }
 
