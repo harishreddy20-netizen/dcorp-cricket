@@ -63,5 +63,25 @@ export async function POST(req: Request) {
     console.error("Resend error:", emailError);
   }
 
+  // 3. Send WhatsApp notification to group
+  const waMessage = `🏏 *New Join Application*\n\n*Name:* ${name}\n*Role:* ${roleLabel[role] ?? role}\n*Experience:* ${experience}\n*Phone:* ${phone || "—"}\n*Email:* ${email}${message ? `\n*Message:* ${message}` : ""}`;
+
+  try {
+    await fetch(
+      `https://api.green-api.com/waInstance${process.env.GREEN_API_INSTANCE_ID}/sendMessage/${process.env.GREEN_API_TOKEN}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chatId: process.env.WHATSAPP_GROUP_ID,
+          message: waMessage,
+        }),
+      }
+    );
+  } catch (err) {
+    // Don't fail the request if WhatsApp notification fails
+    console.error("WhatsApp notification error:", err);
+  }
+
   return NextResponse.json({ success: true });
 }
