@@ -70,9 +70,8 @@ export async function POST(req: Request) {
     const instanceId = process.env.GREEN_API_INSTANCE_ID?.trim();
     const apiToken = process.env.GREEN_API_TOKEN?.trim();
     const groupId = process.env.WHATSAPP_GROUP_ID?.trim();
-    console.log("WhatsApp env:", instanceId, groupId?.slice(0, 10));
 
-    const waRes = await fetch(
+    await fetch(
       `https://api.green-api.com/waInstance${instanceId}/sendMessage/${apiToken}`,
       {
         method: "POST",
@@ -83,8 +82,6 @@ export async function POST(req: Request) {
         }),
       }
     );
-    const waData = await waRes.json();
-    console.log("WhatsApp response:", JSON.stringify(waData));
   } catch (err) {
     console.error("WhatsApp notification error:", err);
   }
