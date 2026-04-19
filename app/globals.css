@@ -8,17 +8,31 @@
   --font-display: var(--font-barlow-condensed), ui-sans-serif, system-ui, sans-serif;
 }
 
+:root {
+  --bg:     oklch(11% 0.018 255);
+  --bg2:    oklch(15% 0.018 255);
+  --bg3:    oklch(19% 0.020 255);
+  --gold:   oklch(74% 0.14 84);
+  --green:  oklch(62% 0.16 145);
+  --text:   oklch(94% 0.008 255);
+  --muted:  oklch(60% 0.010 255);
+  --border: oklch(25% 0.018 255);
+  --red:    oklch(65% 0.18 25);
+}
+
 html { scroll-behavior: smooth; }
 
 body {
-  background: #f8fafc;
-  color: #111827;
+  background: var(--bg);
+  color: var(--text);
 }
 
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
 
 @keyframes marquee {
   from { transform: translateX(0); }
