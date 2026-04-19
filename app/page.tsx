@@ -71,7 +71,9 @@ export default async function HomePage() {
     supabase.storage.from(BUCKET).list("", { limit: 50, sortBy: { column: "created_at", order: "desc" } }),
   ]);
 
-  const nextMatch = fixtures[0];
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const nextMatch = fixtures.find((f) => new Date(f.date + "T00:00:00") >= today) ?? null;
   const latestResult = results?.[0] ?? null;
 
   const imageUrls =
@@ -220,42 +222,48 @@ export default async function HomePage() {
               <span className="text-[#dc2626] text-xs font-bold uppercase tracking-widest">Upcoming</span>
             </div>
             <div className="p-5">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="flex flex-col items-center flex-1 gap-1.5">
-                  <div className="w-14 h-14 rounded-2xl bg-[#dc2626] flex items-center justify-center text-white text-sm font-bold shadow-md shadow-red-200">
-                    DC
+              {!nextMatch ? (
+                <p className="text-gray-400 text-sm text-center py-4">No upcoming fixtures.</p>
+              ) : (
+                <>
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="flex flex-col items-center flex-1 gap-1.5">
+                      <div className="w-14 h-14 rounded-2xl bg-[#dc2626] flex items-center justify-center text-white text-sm font-bold shadow-md shadow-red-200">
+                        DC
+                      </div>
+                      <p className="text-gray-900 font-semibold text-sm">Dcorp CC</p>
+                    </div>
+                    <div className="flex flex-col items-center gap-1">
+                      <span className="text-gray-300 font-bold text-lg">vs</span>
+                      <span className="text-gray-400 text-xs bg-gray-50 px-2 py-1 rounded-lg border border-gray-100">
+                        {nextMatch.isHome ? "Home" : "Away"}
+                      </span>
+                    </div>
+                    <div className="flex flex-col items-center flex-1 gap-1.5">
+                      <div className="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center text-gray-500 text-sm font-bold">
+                        {nextMatch.opponent.slice(0, 2).toUpperCase()}
+                      </div>
+                      <p className="text-gray-900 font-semibold text-sm">{nextMatch.opponent}</p>
+                    </div>
                   </div>
-                  <p className="text-gray-900 font-semibold text-sm">Dcorp CC</p>
-                </div>
-                <div className="flex flex-col items-center gap-1">
-                  <span className="text-gray-300 font-bold text-lg">vs</span>
-                  <span className="text-gray-400 text-xs bg-gray-50 px-2 py-1 rounded-lg border border-gray-100">
-                    {nextMatch.isHome ? "Home" : "Away"}
-                  </span>
-                </div>
-                <div className="flex flex-col items-center flex-1 gap-1.5">
-                  <div className="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center text-gray-500 text-sm font-bold">
-                    {nextMatch.opponent.slice(0, 2).toUpperCase()}
+                  <div className="bg-gray-50 rounded-xl px-4 py-3 space-y-1.5 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Date</span>
+                      <span className="text-gray-900 font-medium">
+                        {nextMatch.day},{" "}
+                        {new Date(nextMatch.date + "T00:00:00").toLocaleDateString("en-GB", {
+                          day: "numeric",
+                          month: "long",
+                        })}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Venue</span>
+                      <span className="text-gray-900 font-medium">{nextMatch.venue}</span>
+                    </div>
                   </div>
-                  <p className="text-gray-900 font-semibold text-sm">{nextMatch.opponent}</p>
-                </div>
-              </div>
-              <div className="bg-gray-50 rounded-xl px-4 py-3 space-y-1.5 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Date</span>
-                  <span className="text-gray-900 font-medium">
-                    {nextMatch.day},{" "}
-                    {new Date(nextMatch.date + "T00:00:00").toLocaleDateString("en-GB", {
-                      day: "numeric",
-                      month: "long",
-                    })}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Venue</span>
-                  <span className="text-gray-900 font-medium">{nextMatch.venue}</span>
-                </div>
-              </div>
+                </>
+              )}
             </div>
           </div>
 
@@ -274,25 +282,26 @@ export default async function HomePage() {
                 <p className="text-gray-400 text-sm text-center py-4">No results yet.</p>
               ) : (
                 <>
-                  <div className="flex items-center gap-4 mb-4">
+                  <div className="flex items-center gap-3 mb-4">
                     <div className="flex flex-col items-center flex-1 gap-1.5">
-                      <div className="w-14 h-14 rounded-2xl bg-[#dc2626] flex items-center justify-center text-white text-sm font-bold shadow-md shadow-red-200">
+                      <div className="w-12 h-12 rounded-2xl bg-[#dc2626] flex items-center justify-center text-white text-sm font-bold shadow-md shadow-red-200">
                         DC
                       </div>
-                      <p className="text-gray-900 font-semibold text-sm">Dcorp CC</p>
-                      <p className="text-[#dc2626] font-bold text-lg leading-none">{latestResult.dcorp_score}</p>
+                      <p className="text-gray-900 font-semibold text-xs text-center">Dcorp CC</p>
+                      <p className="text-[#dc2626] font-bold text-base leading-none">{latestResult.dcorp_score || "—"}</p>
                     </div>
-                    <div className="text-center">
-                      <div className={`text-xs font-bold px-3 py-1.5 rounded-xl border ${latestResult.result === "won" ? "bg-green-50 text-green-700 border-green-200" : "bg-red-50 text-red-700 border-red-200"}`}>
+                    <div className="flex flex-col items-center gap-1.5 flex-shrink-0">
+                      <div className={`text-xs font-bold px-2.5 py-1.5 rounded-xl border ${latestResult.result === "won" ? "bg-green-50 text-green-700 border-green-200" : "bg-red-50 text-red-700 border-red-200"}`}>
                         {latestResult.result === "won" ? "WON" : "LOST"}
                       </div>
+                      <span className="text-gray-300 text-xs font-bold">vs</span>
                     </div>
                     <div className="flex flex-col items-center flex-1 gap-1.5">
-                      <div className="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center font-bold text-gray-600 text-sm">
+                      <div className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center font-bold text-gray-600 text-sm">
                         {latestResult.opponent.slice(0, 2).toUpperCase()}
                       </div>
-                      <p className="text-gray-900 font-semibold text-sm">{latestResult.opponent}</p>
-                      <p className="text-gray-400 font-bold text-lg leading-none">{latestResult.opponent_score}</p>
+                      <p className="text-gray-900 font-semibold text-xs text-center">{latestResult.opponent}</p>
+                      <p className="text-gray-400 font-bold text-base leading-none">{latestResult.opponent_score || "—"}</p>
                     </div>
                   </div>
                   <div className="bg-gray-50 rounded-xl px-4 py-3 text-sm space-y-2">

@@ -49,13 +49,16 @@ export default async function FixturesPage() {
     .select("*")
     .order("date", { ascending: false });
 
-  const grouped = groupByMonth(fixtures);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const upcomingFixtures = fixtures.filter((f) => new Date(f.date + "T00:00:00") >= today);
+  const grouped = groupByMonth(upcomingFixtures);
 
   const eventSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: "Dcorp Cricket Club 2026 Fixtures",
-    itemListElement: fixtures.map((f, i) => ({
+    itemListElement: upcomingFixtures.map((f, i) => ({
       "@type": "ListItem",
       position: i + 1,
       item: {
