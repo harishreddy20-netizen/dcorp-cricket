@@ -6,9 +6,8 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const links = [
-  { href: "/", label: "Home" },
   { href: "/players", label: "Players" },
-  { href: "/fixtures", label: "Fixtures & Results" },
+  { href: "/fixtures", label: "Fixtures" },
   { href: "/gallery", label: "Gallery" },
 ];
 
@@ -17,58 +16,57 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
+    <nav className="sticky top-0 z-50 border-b" style={{ background: "rgba(13,15,24,0.9)", backdropFilter: "blur(16px)", borderColor: "#23263a" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-18" style={{ height: "4.5rem" }}>
+        <div className="flex items-center justify-between" style={{ height: "4rem" }}>
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-11 h-11 flex-shrink-0">
-              <Image
-                src="/logo-v3.png"
-                alt="Dcorp Cricket Club"
-                width={44}
-                height={44}
-                className="w-full h-full object-contain"
-              />
+          <Link href="/" className="flex items-center gap-3">
+            <div className="w-9 h-9 flex-shrink-0 rounded-full overflow-hidden" style={{ background: "#1a1d2a" }}>
+              <Image src="/logo-v3.png" alt="Dcorp Cricket Club" width={36} height={36} className="w-full h-full object-contain" />
             </div>
-            <div className="hidden sm:block">
-              <p className="font-display font-bold text-gray-900 text-lg leading-tight tracking-tight">
-                Dcorp <span className="text-[#dc2626]">Cricket Club</span>
+            <div>
+              <p className="font-display font-bold text-white leading-tight uppercase" style={{ fontSize: "17px", letterSpacing: "0.04em" }}>
+                Dcorp CC
               </p>
-              <p className="text-gray-400 text-[11px] tracking-widest uppercase">Oklahoma City</p>
+              <p style={{ fontSize: "10px", letterSpacing: "0.12em", color: "#C9A44B" }} className="uppercase leading-none">
+                Oklahoma City
+              </p>
             </div>
           </Link>
 
           {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-0.5">
+          <div className="hidden md:flex items-center gap-8">
             {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative px-4 py-2 text-sm font-medium transition-colors duration-150 rounded-lg ${
-                  pathname === link.href
-                    ? "text-[#dc2626] bg-red-50"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-                }`}
+                className="font-semibold uppercase transition-colors duration-150"
+                style={{
+                  fontSize: "13px",
+                  letterSpacing: "0.08em",
+                  color: pathname === link.href ? "#eef0f5" : "#868ea5",
+                }}
               >
                 {link.label}
-                {pathname === link.href && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-[#dc2626] rounded-full" />
-                )}
               </Link>
             ))}
+          </div>
+
+          <div className="hidden md:flex">
             <Link
               href="/join"
-              className="ml-3 bg-[#dc2626] hover:bg-[#b91c1c] text-white text-sm font-semibold px-5 py-2 rounded-lg transition-colors duration-150"
+              className="font-bold uppercase transition-opacity hover:opacity-80"
+              style={{ background: "#C9A44B", color: "#0d0f18", padding: "8px 20px", fontSize: "12px", letterSpacing: "0.1em" }}
             >
-              Join Us
+              Join the Club
             </Link>
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile toggle */}
           <button
             onClick={() => setOpen(!open)}
-            className="md:hidden p-2 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+            className="md:hidden p-2 transition-colors"
+            style={{ color: "#868ea5" }}
             aria-label="Toggle menu"
           >
             {open ? (
@@ -86,29 +84,27 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden border-t border-gray-100 bg-white shadow-lg">
-          <div className="px-4 py-3 space-y-1">
+        <div className="md:hidden border-t" style={{ background: "#0d0f18", borderColor: "#23263a" }}>
+          <div className="px-4 py-4 space-y-1">
             {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className={`flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors ${
-                  pathname === link.href
-                    ? "text-[#dc2626] bg-red-50"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-                }`}
+                className="block px-3 py-2.5 font-semibold uppercase transition-colors"
+                style={{ fontSize: "13px", letterSpacing: "0.08em", color: pathname === link.href ? "#C9A44B" : "#868ea5" }}
               >
                 {link.label}
               </Link>
             ))}
-            <div className="pt-2 pb-1">
+            <div className="pt-2">
               <Link
                 href="/join"
                 onClick={() => setOpen(false)}
-                className="flex items-center justify-center w-full bg-[#dc2626] hover:bg-[#b91c1c] text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors duration-150"
+                className="block text-center font-bold uppercase"
+                style={{ background: "#C9A44B", color: "#0d0f18", padding: "10px 16px", fontSize: "12px", letterSpacing: "0.1em" }}
               >
-                Join Us
+                Join the Club
               </Link>
             </div>
           </div>

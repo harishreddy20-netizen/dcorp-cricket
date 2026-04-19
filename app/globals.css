@@ -3,13 +3,12 @@
 @theme inline {
   --color-brand-red: #dc2626;
   --color-brand-red-dark: #b91c1c;
+  --color-gold: #C9A44B;
   --font-sans: var(--font-barlow), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-barlow-condensed), ui-sans-serif, system-ui, sans-serif;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   background: #f8fafc;
@@ -29,6 +28,11 @@ body {
 @keyframes marquee-reverse {
   from { transform: translateX(-50%); }
   to   { transform: translateX(0); }
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,69 +1,36 @@
 import Link from "next/link";
 import Image from "next/image";
 
-function IconLocation() {
-  return (
-    <svg className="w-4 h-4 text-[#dc2626] mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-      <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-    </svg>
-  );
-}
-
-function IconEnvelope() {
-  return (
-    <svg className="w-4 h-4 text-[#dc2626] mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-    </svg>
-  );
-}
-
-function IconClock() {
-  return (
-    <svg className="w-4 h-4 text-[#dc2626] mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-  );
-}
-
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 mt-auto">
-      {/* Top red accent */}
-      <div className="h-1 bg-[#dc2626]" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
+    <footer style={{ background: "oklch(8% 0.015 255)", borderTop: "1px solid #23263a" }}>
+      <div className="max-w-7xl mx-auto px-6 sm:px-16 pt-16 pb-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mb-12">
           {/* Brand */}
-          <div className="md:col-span-2">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 flex-shrink-0">
-                <Image
-                  src="/logo-v3.png"
-                  alt="Dcorp Cricket Club"
-                  width={48}
-                  height={48}
-                  className="w-full h-full object-contain"
-                />
+          <div className="md:col-span-1 flex flex-col gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0" style={{ background: "#131620" }}>
+                <Image src="/logo-v3.png" alt="Dcorp Cricket Club" width={40} height={40} className="w-full h-full object-contain" />
               </div>
               <div>
-                <p className="font-display font-bold text-white text-lg leading-tight tracking-tight">
+                <p className="font-display font-bold text-white uppercase" style={{ fontSize: "18px", letterSpacing: "0.05em" }}>
                   Dcorp Cricket Club
                 </p>
-                <p className="text-gray-500 text-xs tracking-widest uppercase">Oklahoma City</p>
+                <p style={{ fontSize: "11px", color: "#C9A44B", letterSpacing: "0.12em" }} className="uppercase">
+                  Oklahoma City
+                </p>
               </div>
             </div>
-            <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
-              Est. 2014 — Building a cricketing community with passion, dedication, and the love of
-              the game.
+            <p style={{ color: "#868ea5", fontSize: "14px", lineHeight: "1.6", maxWidth: "300px" }}>
+              Est. 2014 — Building a cricketing community with passion, dedication, and the love of the game.
             </p>
           </div>
 
-          {/* Quick Links */}
+          {/* Club links */}
           <div>
-            <h3 className="text-white font-semibold mb-4 text-xs uppercase tracking-widest">
+            <h4 className="font-bold uppercase mb-5" style={{ fontSize: "11px", letterSpacing: "0.16em", color: "#C9A44B" }}>
               Club
-            </h3>
+            </h4>
             <ul className="space-y-2.5">
               {[
                 { href: "/players", label: "Our Squad" },
@@ -72,11 +39,7 @@ export default function Footer() {
                 { href: "/join", label: "Join the Club" },
               ].map((link) => (
                 <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-gray-400 hover:text-white text-sm transition-colors duration-200 flex items-center gap-1.5 group cursor-pointer"
-                  >
-                    <span className="w-0 group-hover:w-2 h-0.5 bg-[#dc2626] transition-all duration-200 rounded-full" />
+                  <Link href={link.href} style={{ fontSize: "14px", color: "#868ea5" }} className="hover:text-white transition-colors duration-200">
                     {link.label}
                   </Link>
                 </li>
@@ -86,34 +49,30 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="text-white font-semibold mb-4 text-xs uppercase tracking-widest">
+            <h4 className="font-bold uppercase mb-5" style={{ fontSize: "11px", letterSpacing: "0.16em", color: "#C9A44B" }}>
               Contact
-            </h3>
-            <ul className="space-y-3 text-sm text-gray-400">
-              <li className="flex items-start gap-2.5">
-                <IconLocation />
-                <span>Oklahoma City, USA</span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <IconEnvelope />
-                <span>info@dcorpcc.club</span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <IconClock />
-                <span>Training: Thu, 6:30 PM</span>
-              </li>
+            </h4>
+            <ul className="space-y-2.5">
+              {[
+                { label: "info@dcorpcc.club" },
+                { label: "Oklahoma City, USA" },
+                { label: "Training: Thu, 6:30 PM" },
+              ].map((item) => (
+                <li key={item.label} style={{ fontSize: "14px", color: "#868ea5" }}>
+                  {item.label}
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
-        <div className="pt-6 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-gray-600 text-xs">
-            &copy; {new Date().getFullYear()} Dcorp Cricket Club. All rights reserved.
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-8 border-t" style={{ borderColor: "#23263a" }}>
+          <p style={{ fontSize: "12px", color: "#868ea5" }}>
+            © {new Date().getFullYear()} Dcorp Cricket Club. All rights reserved.
           </p>
-          <div className="flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#dc2626]" />
-            <p className="text-gray-600 text-xs">TSCL 35 2026</p>
-          </div>
+          <p className="font-bold uppercase" style={{ fontSize: "12px", letterSpacing: "0.1em", color: "#C9A44B" }}>
+            TSCL 35 2026
+          </p>
         </div>
       </div>
     </footer>
