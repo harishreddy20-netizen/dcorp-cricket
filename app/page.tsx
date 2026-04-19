@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@supabase/supabase-js";
-import { fixtures } from "@/lib/data";
 import HeroSlideshow from "@/components/HeroSlideshow";
 import PhotoStrip from "@/components/PhotoStrip";
 import Countdown from "@/components/Countdown";
@@ -64,14 +63,17 @@ export default async function HomePage() {
     process.env.SUPABASE_ANON_KEY!
   );
 
-  const [{ data: results }, { data: files }] = await Promise.all([
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const todayStr = today.toISOString().slice(0, 10);
+
+  const [{ data: results }, { data: fixturesData }, { data: files }] = await Promise.all([
     supabase.from("results").select("*").order("date", { ascending: false }).limit(5),
+    supabase.from("fixtures").select("*").gte("date", todayStr).order("date", { ascending: true }).limit(1),
     supabase.storage.from(BUCKET).list("", { limit: 50, sortBy: { column: "created_at", order: "desc" } }),
   ]);
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const nextMatch = fixtures.find((f) => new Date(f.date + "T00:00:00") >= today) ?? null;
+  const nextMatch = fixturesData?.[0] ?? null;
 
   const imageUrls =
     files
@@ -183,7 +185,7 @@ export default async function HomePage() {
                     </div>
                     <div style={{ fontSize: "15px", fontWeight: 700 }}>Dcorp CC</div>
                     <div style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", background: "var(--gold)", color: "var(--bg)", padding: "2px 8px", borderRadius: "2px", width: "fit-content" }}>
-                      {nextMatch.isHome ? "Home" : "Away"}
+                      {nextMatch.is_home ? "Home" : "Away"}
                     </div>
                   </div>
                   {/* VS */}
@@ -197,7 +199,7 @@ export default async function HomePage() {
                     </div>
                     <div style={{ fontSize: "15px", fontWeight: 700 }}>{nextMatch.opponent}</div>
                     <div style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", background: "var(--bg3)", color: "var(--muted)", padding: "2px 8px", borderRadius: "2px", width: "fit-content" }}>
-                      {nextMatch.isHome ? "Away" : "Home"}
+                      {nextMatch.is_home ? "Away" : "Home"}
                     </div>
                   </div>
                 </div>

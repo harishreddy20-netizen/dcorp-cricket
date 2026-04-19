@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
-import { fixtures } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Fixtures & Results",
@@ -45,8 +44,17 @@ function runBarPct(result: "won" | "lost", margin: string | null): number {
   return 65;
 }
 
-function groupByMonth(items: typeof fixtures) {
-  return items.reduce<Record<string, typeof fixtures>>((acc, match) => {
+type Fixture = {
+  id: number;
+  opponent: string;
+  date: string;
+  day: string;
+  is_home: boolean;
+  venue: string;
+};
+
+function groupByMonth(items: Fixture[]) {
+  return items.reduce<Record<string, Fixture[]>>((acc, match) => {
     const month = new Date(match.date + "T00:00:00").toLocaleDateString("en-GB", {
       month: "long",
       year: "numeric",
@@ -63,14 +71,16 @@ export default async function FixturesPage() {
     process.env.SUPABASE_ANON_KEY!
   );
 
-  const { data: results, error } = await supabase
-    .from("results")
-    .select("*")
-    .order("date", { ascending: false });
-
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  const upcomingFixtures = fixtures.filter((f) => new Date(f.date + "T00:00:00") >= today);
+  const todayStr = today.toISOString().slice(0, 10);
+
+  const [{ data: results, error }, { data: fixturesData }] = await Promise.all([
+    supabase.from("results").select("*").order("date", { ascending: false }),
+    supabase.from("fixtures").select("*").gte("date", todayStr).order("date", { ascending: true }),
+  ]);
+
+  const upcomingFixtures: Fixture[] = fixturesData ?? [];
   const grouped = groupByMonth(upcomingFixtures);
 
   const eventSchema = {
@@ -170,8 +180,8 @@ export default async function FixturesPage() {
                     </div>
 
                     {matches.map((match, idx) => {
-                      const home = match.isHome ? { abbr: "DC", name: "Dcorp CC", isDcorp: true } : { abbr: match.opponent.slice(0, 2).toUpperCase(), name: match.opponent, isDcorp: false };
-                      const away = match.isHome ? { abbr: match.opponent.slice(0, 2).toUpperCase(), name: match.opponent, isDcorp: false } : { abbr: "DC", name: "Dcorp CC", isDcorp: true };
+                      const home = match.is_home ? { abbr: "DC", name: "Dcorp CC", isDcorp: true } : { abbr: match.opponent.slice(0, 2).toUpperCase(), name: match.opponent, isDcorp: false };
+                      const away = match.is_home ? { abbr: match.opponent.slice(0, 2).toUpperCase(), name: match.opponent, isDcorp: false } : { abbr: "DC", name: "Dcorp CC", isDcorp: true };
 
                       return (
                         <div
