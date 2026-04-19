@@ -233,7 +233,7 @@ export default async function HomePage() {
                     </div>
                   </div>
                   <div className="font-display font-bold" style={{ fontSize: "18px", color: BORDER }}>VS</div>
-                  <div style={{ flex: 1 }}>
+                  <div style={{ flex: 1, textAlign: "right" }}>
                     <div className="font-display font-black text-white leading-none" style={{ fontSize: "42px" }}>
                       {latestResult.opponent.slice(0, 2).toUpperCase()}
                     </div>
