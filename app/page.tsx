@@ -29,6 +29,17 @@ export const metadata = {
   },
 };
 
+function parseScores(dcorpRaw: string | null, opponentRaw: string | null) {
+  const opScore = (opponentRaw || "").trim();
+  const dcScore = (dcorpRaw || "").trim();
+  // If separate fields exist, use them
+  if (opScore) return { dcorp: dcScore || "—", opponent: opScore };
+  // Parse combined format e.g. "286/8(35.0)GSO:241/10(31.1)"
+  const match = dcScore.match(/^([^A-Z]+)[A-Z]+:(.+)$/);
+  if (match) return { dcorp: match[1].trim(), opponent: match[2].trim() };
+  return { dcorp: dcScore || "—", opponent: "—" };
+}
+
 export default async function HomePage() {
   const supabase = createClient(
     process.env.SUPABASE_URL!,
@@ -221,34 +232,30 @@ export default async function HomePage() {
               <p style={{ color: MUTED, fontSize: "14px", padding: "16px 0" }}>No results yet.</p>
             ) : (
               <>
-                <div className="mb-7" style={{ borderRadius: "8px", overflow: "hidden", border: `1px solid ${BORDER}` }}>
-                  {/* Dcorp row */}
-                  <div className="flex items-center justify-between" style={{ padding: "14px 16px", background: "rgba(255,255,255,0.03)" }}>
-                    <div className="flex items-center gap-3">
-                      <div className="font-display font-black text-white leading-none" style={{ fontSize: "28px" }}>DC</div>
-                      <div style={{ fontSize: "13px", color: MUTED, fontWeight: 500 }}>Dcorp CC</div>
-                    </div>
-                    <div className="font-display font-bold leading-none" style={{ fontSize: "22px", color: latestResult.result === "won" ? GREEN : "#eef0f5" }}>
-                      {latestResult.dcorp_score || "—"}
-                    </div>
-                  </div>
-                  {/* Divider */}
-                  <div className="flex items-center" style={{ borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}`, padding: "6px 16px" }}>
-                    <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.16em", color: BORDER }}>VS</span>
-                  </div>
-                  {/* Opponent row */}
-                  <div className="flex items-center justify-between" style={{ padding: "14px 16px", background: "rgba(255,255,255,0.03)" }}>
-                    <div className="flex items-center gap-3">
-                      <div className="font-display font-black text-white leading-none" style={{ fontSize: "28px" }}>
-                        {latestResult.opponent.slice(0, 2).toUpperCase()}
+                {(() => {
+                  const { dcorp: dcorpScore, opponent: oppScore } = parseScores(latestResult.dcorp_score, latestResult.opponent_score);
+                  return (
+                    <div className="flex items-center mb-7" style={{ gap: "20px" }}>
+                      <div style={{ flex: 1 }}>
+                        <div className="font-display font-black text-white leading-none" style={{ fontSize: "42px" }}>DC</div>
+                        <div style={{ fontSize: "12px", color: MUTED, fontWeight: 500, marginTop: "4px" }}>Dcorp CC</div>
+                        <div className="font-display font-bold leading-none" style={{ fontSize: "24px", marginTop: "6px", color: latestResult.result === "won" ? GREEN : "#eef0f5" }}>
+                          {dcorpScore}
+                        </div>
                       </div>
-                      <div style={{ fontSize: "13px", color: MUTED, fontWeight: 500 }}>{latestResult.opponent}</div>
+                      <div className="font-display font-bold" style={{ fontSize: "18px", color: BORDER }}>VS</div>
+                      <div style={{ flex: 1, textAlign: "right" }}>
+                        <div className="font-display font-black text-white leading-none" style={{ fontSize: "42px" }}>
+                          {latestResult.opponent.slice(0, 2).toUpperCase()}
+                        </div>
+                        <div style={{ fontSize: "12px", color: MUTED, fontWeight: 500, marginTop: "4px" }}>{latestResult.opponent}</div>
+                        <div className="font-display font-bold leading-none" style={{ fontSize: "24px", marginTop: "6px", color: "#eef0f5" }}>
+                          {oppScore}
+                        </div>
+                      </div>
                     </div>
-                    <div className="font-display font-bold leading-none" style={{ fontSize: "22px", color: "#eef0f5" }}>
-                      {latestResult.opponent_score || "—"}
-                    </div>
-                  </div>
-                </div>
+                  );
+                })()}
                 <div
                   className="inline-block font-bold uppercase"
                   style={{
