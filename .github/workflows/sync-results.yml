@@ -2,8 +2,8 @@ name: Sync CricClubs Results
 
 on:
   schedule:
-    # Runs every Saturday and Sunday at 8:00 PM UTC
-    - cron: "0 20 * * 6,0"
+    # Runs every Saturday and Sunday at 8:00 PM CST (02:00 UTC Sun/Mon)
+    - cron: "0 2 * * 0,1"
   workflow_dispatch: # Allow manual trigger from GitHub Actions tab
 
 env:
