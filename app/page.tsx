@@ -413,6 +413,67 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ── FOUNDER ── */}
+      <section style={{ background: "var(--bg)", borderTop: "1px solid var(--border)", padding: "80px clamp(24px,4vw,60px)" }}>
+        <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--gold)", marginBottom: "10px" }}>
+          The Beginning
+        </div>
+        <h2 className="font-display font-extrabold uppercase" style={{ fontSize: "clamp(36px,5vw,64px)", lineHeight: 1, marginBottom: "48px" }}>
+          Meet the <em style={{ fontStyle: "italic", color: "var(--gold)" }}>Founder</em>
+        </h2>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2px", border: "1px solid var(--border)" }}>
+          {/* Image */}
+          <div style={{ position: "relative", minHeight: "480px", background: "var(--bg3)", overflow: "hidden" }}>
+            <Image
+              src="https://aydurlcdckxwtlertsas.supabase.co/storage/v1/object/public/Dcorp-cricket/founder.jpeg"
+              alt="Dileep Ralabandi — Founder, Dcorp Cricket Club"
+              fill
+              className="object-cover object-top"
+              style={{ filter: "brightness(0.9)" }}
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+            {/* Gold gradient overlay at bottom */}
+            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, oklch(11% 0.018 255 / 0.7) 0%, transparent 60%)" }} />
+            {/* Name tag */}
+            <div style={{ position: "absolute", bottom: 28, left: 28 }}>
+              <div className="font-display font-black uppercase" style={{ fontSize: "28px", lineHeight: 1, color: "var(--text)" }}>Dileep Ralabandi</div>
+              <div style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--gold)", marginTop: "6px" }}>Founder · Est. 2014</div>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div style={{ background: "var(--bg2)", padding: "56px 48px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "32px" }}>
+              <div style={{ width: 3, height: 32, background: "var(--gold)", borderRadius: 2, flexShrink: 0 }} />
+              <blockquote className="font-display font-bold uppercase" style={{ fontSize: "clamp(22px,3vw,32px)", lineHeight: 1.1, color: "var(--text)" }}>
+                Built on Passion.<br />Driven by Competition.
+              </blockquote>
+            </div>
+
+            <p style={{ fontSize: "16px", color: "var(--muted)", lineHeight: 1.8, marginBottom: "24px" }}>
+              Dileep Ralabandi founded Dcorp Cricket Club in 2014 with a clear mission — to bring serious, competitive cricket to Oklahoma City. A fierce and relentless competitor on the field, he has spent over a decade championing the sport in the area, building a club from the ground up that now stands as one of the most respected sides in the TSCL.
+            </p>
+            <p style={{ fontSize: "16px", color: "var(--muted)", lineHeight: 1.8, marginBottom: "40px" }}>
+              His passion for the game goes beyond winning. Dileep has worked tirelessly to grow cricketing culture in Oklahoma — giving players of all backgrounds a home, a team, and a reason to compete at the highest level every season.
+            </p>
+
+            <div style={{ display: "flex", gap: "32px" }}>
+              {[
+                { value: "10+", label: "Seasons Led" },
+                { value: "2",   label: "League Titles" },
+                { value: "20+", label: "Players Mentored" },
+              ].map((s) => (
+                <div key={s.label}>
+                  <div className="font-display font-black" style={{ fontSize: "36px", lineHeight: 1, color: "var(--gold)" }}>{s.value}</div>
+                  <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--muted)", marginTop: "4px" }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── JOIN CTA ── */}
       <section
         className="relative text-center overflow-hidden"
