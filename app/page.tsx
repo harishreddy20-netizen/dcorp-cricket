@@ -77,7 +77,7 @@ export default async function HomePage() {
 
   const imageUrls =
     files
-      ?.filter((f) => f.name !== ".emptyFolderPlaceholder" && /\.(jpe?g|png|webp|gif|avif)$/i.test(f.name))
+      ?.filter((f) => f.name !== ".emptyFolderPlaceholder" && f.name !== "founder.jpeg" && /\.(jpe?g|png|webp|gif|avif)$/i.test(f.name))
       .map((f) => supabase.storage.from(BUCKET).getPublicUrl(f.name).data.publicUrl) ?? [];
 
   const heroImages    = imageUrls.slice(0, 6);
