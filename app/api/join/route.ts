@@ -2,6 +2,12 @@ import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 import { NextResponse } from "next/server";
 
+function escapeHtml(value: unknown): string {
+  return String(value ?? "").replace(/[&<>"']/g, (ch) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]!)
+  );
+}
+
 export async function POST(req: Request) {
   const supabase = createClient(
     process.env.SUPABASE_URL!,
@@ -43,15 +49,15 @@ export async function POST(req: Request) {
         </div>
         <div style="border:1px solid #e5e7eb;border-top:none;border-radius:0 0 12px 12px;padding:24px">
           <table style="width:100%;border-collapse:collapse;font-size:14px">
-            <tr><td style="padding:8px 0;color:#6b7280;width:140px">Name</td><td style="padding:8px 0;font-weight:600">${name}</td></tr>
-            <tr><td style="padding:8px 0;color:#6b7280">Email</td><td style="padding:8px 0"><a href="mailto:${email}" style="color:#dc2626">${email}</a></td></tr>
-            <tr><td style="padding:8px 0;color:#6b7280">Phone</td><td style="padding:8px 0">${phone || "—"}</td></tr>
-            <tr><td style="padding:8px 0;color:#6b7280">Age</td><td style="padding:8px 0">${age || "—"}</td></tr>
-            <tr><td style="padding:8px 0;color:#6b7280">Playing Role</td><td style="padding:8px 0">${roleLabel[role] ?? role}</td></tr>
-            <tr><td style="padding:8px 0;color:#6b7280">Experience</td><td style="padding:8px 0;text-transform:capitalize">${experience}</td></tr>
-            <tr><td style="padding:8px 0;color:#6b7280">Availability</td><td style="padding:8px 0;text-transform:capitalize">${availability || "—"}</td></tr>
+            <tr><td style="padding:8px 0;color:#6b7280;width:140px">Name</td><td style="padding:8px 0;font-weight:600">${escapeHtml(name)}</td></tr>
+            <tr><td style="padding:8px 0;color:#6b7280">Email</td><td style="padding:8px 0"><a href="mailto:${escapeHtml(email)}" style="color:#dc2626">${escapeHtml(email)}</a></td></tr>
+            <tr><td style="padding:8px 0;color:#6b7280">Phone</td><td style="padding:8px 0">${escapeHtml(phone) || "—"}</td></tr>
+            <tr><td style="padding:8px 0;color:#6b7280">Age</td><td style="padding:8px 0">${escapeHtml(age) || "—"}</td></tr>
+            <tr><td style="padding:8px 0;color:#6b7280">Playing Role</td><td style="padding:8px 0">${escapeHtml(roleLabel[role] ?? role)}</td></tr>
+            <tr><td style="padding:8px 0;color:#6b7280">Experience</td><td style="padding:8px 0;text-transform:capitalize">${escapeHtml(experience)}</td></tr>
+            <tr><td style="padding:8px 0;color:#6b7280">Availability</td><td style="padding:8px 0;text-transform:capitalize">${escapeHtml(availability) || "—"}</td></tr>
           </table>
-          ${message ? `<div style="margin-top:16px;padding:14px;background:#f9fafb;border-radius:8px;font-size:13px;color:#374151"><strong>Message:</strong><br/>${message}</div>` : ""}
+          ${message ? `<div style="margin-top:16px;padding:14px;background:#f9fafb;border-radius:8px;font-size:13px;color:#374151"><strong>Message:</strong><br/>${escapeHtml(message)}</div>` : ""}
         </div>
         <p style="text-align:center;color:#9ca3af;font-size:12px;margin-top:16px">Dcorp Cricket Club · Oklahoma City</p>
       </div>
@@ -71,17 +77,30 @@ export async function POST(req: Request) {
     const apiToken = process.env.GREEN_API_TOKEN?.trim();
     const groupId = process.env.WHATSAPP_GROUP_ID?.trim();
 
-    await fetch(
-      `https://api.green-api.com/waInstance${instanceId}/sendMessage/${apiToken}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chatId: groupId,
-          message: waMessage,
-        }),
+    if (!instanceId || !apiToken || !groupId) {
+      console.error("WhatsApp notification skipped: missing Green API env vars");
+    } else {
+      const waRes = await fetch(
+        `https://api.green-api.com/waInstance${instanceId}/sendMessage/${apiToken}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chatId: groupId,
+            message: waMessage,
+          }),
+        }
+      );
+
+      if (!waRes.ok) {
+        const errBody = await waRes.text().catch(() => "");
+        console.error(
+          `WhatsApp notification failed (HTTP ${waRes.status}): ${errBody}. ` +
+            `If this says "notAuthorized", the Green API WhatsApp session needs to be re-linked ` +
+            `(scan a fresh QR code via GET /waInstance{id}/qr/{token} in the Green API console).`
+        );
       }
-    );
+    }
   } catch (err) {
     console.error("WhatsApp notification error:", err);
   }
